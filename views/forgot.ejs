@@ -1,0 +1,33 @@
+<%- include('partials/header'); %>
+
+<!-- Begin Page Content -->
+<div class="container">
+  <div class="row justify-content-center">
+
+  <!-- Login Text -->
+  <div class="m-auto col-lg-5 col-md-6">
+    <h4 class="text-center mb-3">Forgot Password</h4>
+
+    <form action="/forgot" method="POST" class="validation user">
+      <div class="form-group">
+        <input type="email" class="form-control form-control-user" name="email" placeholder="Enter Email" data-rule="memail" data-msg="Please enter a valid email">
+        <div class="validate"></div>
+      </div>
+      <div class="mb-3">
+          <div id="check"></div>
+          <div class="loading">Loading</div>
+          <div class="error-message"></div>
+          <div class="sent-message">Activation code has been sent Successfully!</div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-user btn-block"> Get Code</button>
+
+    </form>
+  </div>
+  </div>
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+<%- include('partials/footer'); %>

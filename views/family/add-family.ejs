@@ -1,0 +1,109 @@
+<%- include('../partials/header'); %>
+
+<!-- Begin Page Content -->
+<div class="container">
+    <div class="row justify-content-center mb-3">
+
+        <!-- Login Text -->
+        <h4 class="text-center mb-3">Add Family</h4>
+
+        <form action="/add-family" method="POST" class="validation user">
+            <div class="form-row">
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="fname" placeholder="Enter Family First Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="lname" placeholder="Enter Family Last Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="nic" placeholder="Enter NIC Number" data-rule="minlen:10" data-msg="Please enter at least 10 chars">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="email" class="form-control" name="email" placeholder="Enter Email">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile Number" data-rule="minlen:10" data-msg="Please enter at least 10 chars">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <select name="religion" class="form-control custom-select " data-rule="required" data-msg="Please select one">
+                        <option value="" disabled selected>Choose Religion</option>
+                        <option value="1">Hindu</option>
+                        <option value="2">Christian</option>
+                        <option value="3">Bushist</option>
+                        <option value="4">Muslim</option>
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <select name="cast" class="form-control custom-select " data-rule="required" data-msg="Please select one">
+                        <option value="" disabled selected>Choose Cast</option>
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option value="3"></option>
+                        <option value="4"></option>
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="job" placeholder="Enter your Job" data-rule="required" data-msg="Please enter a value">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="monthlyIncome" placeholder="Enter Monthly Income" data-rule="required" data-msg="Please enter a value">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-6 col-md-6">
+                    <textarea type="text"  class="form-control" name="temporaryAddress" placeholder="Enter Temporary Address" data-rule="minlen:1" data-msg="Please enter at least 1 chars"></textarea>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-6 col-md-6">
+                    <textarea type="text"  class="form-control" name="permanentAddress" placeholder="Enter Permanent Address" data-rule="minlen:1" data-msg="Please enter at least 1 chars"></textarea>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <select name="gn_division" class="form-control custom-select " data-rule="required" data-msg="Please select one">
+                        <option value="" disabled selected>Choose GN Division</option>
+                        <option value="1">Barathinagar</option>
+                        <option value="2">Pugalenthinagar</option>
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <select name="ds_division" class="form-control custom-select " data-rule="required" data-msg="Please select one">
+                        <option value="" disabled selected>Choose DS Division</option>
+                        <option value="1">Thunukkai</option>
+                        <option value="2">Pandiyankulam</option>
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="membersNum" placeholder="Enter Members Count" data-rule="required" data-msg="Please enter a value">
+                    <div class="validate"></div>
+                </div>
+            </div>
+      
+            <div class="mb-3">
+                <div id="check"></div>
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Registered Successfully!</div>
+            </div>
+            <div class="m-auto col-lg-3">
+                <button type="submit" class="btn btn-primary btn-user btn-block"> Create</button>  
+            </div>
+                
+        </form>
+    </div>
+</div>
+
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+<%- include('../partials/footer'); %>

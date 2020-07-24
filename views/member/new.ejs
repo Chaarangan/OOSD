@@ -1,0 +1,60 @@
+
+<%- include("../partials/header") %>
+
+	<div class="container-contact100">
+
+		<div class="wrap-contact100">
+			<form class="contact100-form validate-form" action="/family/<%= family._id %>/member" method="POST">
+				<span class="contact100-form-title">
+					Add a Member
+				</span>
+
+				<div class="wrap-input100 validate-input" data-validate="Please enter your name">
+					<input class="input100" type="text" name="member[name]" placeholder="Name">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Please enter your email: e@a.x">
+					<input class="input100" type="text" name="member[gender]" placeholder="gender">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Please enter your phone">
+					<input class="input100" type="text" name="member[relation]" placeholder="relationship to the family chief">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Please enter your phone">
+					<input class="input100" type="date" name="member[dob]" placeholder="date of birth">
+					<span class="focus-input100"></span>
+                </div>
+                
+                <div class="wrap-input100 validate-input" data-validate = "Please enter your phone">
+					<input class="input100" type="text" name="member[nic_no]" placeholder="NIC No">
+					<span class="focus-input100"></span>
+                </div>
+                
+                <div class="wrap-input100 validate-input" data-validate = "Please enter your phone">
+					<input class="input100" type="text" name="member[occupation]" placeholder="Occupation">
+					<span class="focus-input100"></span>
+                </div>
+                
+                <div class="wrap-input100 validate-input" data-validate = "Please enter your phone">
+					<input class="input100" type="number" name="member[mon_income]" placeholder="monthly income">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<button class="contact100-form-btn">
+						<span>
+							
+							Submit
+						</span>
+					</button>
+				</div>
+            </form>
+            <a href="/family">GO BACK!!</a>
+		</div>
+    </div>
+    
+<%- include("../partials/footer") %>

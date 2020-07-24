@@ -1,0 +1,53 @@
+<%- include("../partials/header") %>
+<div class="container-contact100">
+
+    <div class="wrap-contact100">
+        <form class="contact100-form validate-form" action="/family" method="POST">
+            <span class="contact100-form-title">
+                Add a Family
+            </span>
+
+            <div class="wrap-input100 " >
+                <input class="input100" type="text" name="name" placeholder="New Family Name">
+                <span class="focus-input100"></span>
+            </div>
+
+            <div class="wrap-input100 " >
+                <input class="input100" type="text" name="nic_no" placeholder="NIC No">
+                <span class="focus-input100"></span>
+            </div>
+
+            <div class="wrap-input100 " >
+                <input class="input100" type="text" name="per_address" placeholder="permanent address">
+                <span class="focus-input100"></span>
+            </div>
+
+            <div class="wrap-input100 ">
+                <input class="input100" type="text" name="tem_address" placeholder="tempory address">
+                <span class="focus-input100"></span>
+            </div>
+            
+            <div class="wrap-input100 " >
+                <input class="input100" type="text" name="gs_div" placeholder="GS division">
+                <span class="focus-input100"></span>
+            </div>
+            
+            <div class="wrap-input100 " >
+                <input class="input100" type="text" name="about" placeholder="about">
+                <span class="focus-input100"></span>
+            </div>
+          
+            <div class="container-contact100-form-btn">
+                <button class="contact100-form-btn">
+                    <span>
+                        
+                        Submit
+                    </span>
+                </button>
+            </div>
+        </form>
+        <a href="/family">GO BACK!!</a>
+    </div>
+</div>
+<%- include("../partials/footer") %>
+

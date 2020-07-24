@@ -1,0 +1,87 @@
+<%- include("../partials/header") %>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">Family details</p>
+            <div class="list-group">
+                <li class="list-group-item active">Family</li>
+                <li class="list-group-item">Benifits</li>
+                <li class="list-group-item">Aditional</li>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div  id="thumbnails">
+                <h3 class="text-white">Family Name : <%= family.name %> </h3>
+                <h3 class="text-white">Family NIC No : <%= family.nic_no %> </h3>
+                <h3 class="text-white">Permanant Address : <%= family.per_address %> </h3>
+                <h3 class="text-white">Temperary Address : <%= family.tem_address %> </h3>
+                <h3 class="text-white">GS Division : <%= family.gs_div %> </h3>
+                <h3 class="text-white">About : <%= family.about %> </h3>
+                <p>
+                    <em>Submitted By <%= family.author.username  %></em> 
+                </p>
+                    <% if(currentUser && family.author.id.equals(currentUser._id)){ %>
+                        <a class="btn btn-warning" href="/family/<%= family._id%>/edit">Edit</a>
+                        <form id="delete" action="/family/<%=family._id%>?_method=DELETE " method="POST">
+                            <button class="btn btn-danger float-right">Delete</button>
+                        </form>
+                    <% } %> 
+                   
+                    
+                </div>
+            </div>
+            <div class="well">
+                <div class="text-right">
+                    <a class="btn btn-success" href="/family/<%= family._id%>/member/new">Add a member</a>
+                </div>
+            </div>
+            <br>
+            <hr>                
+            
+            <div class="limiter">
+                <div class="container-table100">
+                    <div class="wrap-table100">
+                        <div class="table100">
+                            <table>
+                                <thead>
+                                    <tr class="table100-head">
+                                        <th class="column1">Name</th>
+                                        <th class="column2">Gender</th>
+                                        <th class="column3">Relation</th>
+                                        <th class="column4">Date of Birth</th>
+                                        <th class="column5">NIC No</th>
+                                        <th class="column6">Occupation</th>
+                                        <th class="column6">Mothly income.</th>
+                                    </tr>
+                                </thead>
+                               
+                                <tbody>
+                                    <% family.members.forEach(function(member){ %> 
+                                        <tr>
+                                            <td class="column1"><%= member.name %></td>
+                                            <td class="column2"><%= member.gender %></td>
+                                            <td class="column3"><%= member.relation %></td>
+                                            <td class="column4"><%= member.dob %></td>
+                                            <td class="column5"><%= member.nic_no %></td>
+                                            <td class="column6"><%= member.occupation%></td>
+                                            <% if(currentUser && family.author.id.equals(currentUser._id)){ %>
+                                                <a class="btn btn-warning" href="/family/<%= family._id%>/member/<%= member._id  %>/edit">Edit</a>
+                                                <form id="delete" action="/family/<%=family._id%>/member/<%= member._id  %>?_method=DELETE " method="POST">
+                                                    <button class="btn btn-danger">Delete</button>
+                                                </form>
+                                            <% } %> 
+                                               
+                                        </tr>
+                                       <% }) %> 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        
+        </div>
+    </div>
+</div>
+<%- include("../partials/footer") %>
