@@ -1,0 +1,142 @@
+<%- include('../partials/header'); %>
+
+<!-- Begin Page Content -->
+<div class="container">
+    <div class="row justify-content-center mb-3">
+
+        <!-- Login Text -->
+        <h4 class="text-center mb-3 border-bottom pb-2">Edit Family</h4>
+
+        <form action="/edit-family?id=<%= family._id %>" method="POST" class="validation user">
+            <div class="form-row">
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="family[fname]" value="<%= family.fname %>" placeholder="Enter Family First Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="family[lname]" value="<%= family.lname %>" placeholder="Enter Family Last Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="family[dob]" value="<%= family.dob %>" id="datepicker" placeholder="Enter Date of Birth" data-rule="required" data-msg="Please enter date of birth">
+                    <div class="validate"></div>
+                    <script>
+                        $('#datepicker').datepicker({
+                            uiLibrary: 'bootstrap4'
+                        });
+                    </script> 
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="family[nic]" value="<%= family.nic %>" placeholder="Enter NIC Number">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="email" class="form-control" name="family[email]" placeholder="Enter Email" value="<%= family.email %>">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="family[mobile]" placeholder="Enter Mobile Number" value="<%= family.mobile %>">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <select name="family[religion]" class="form-control custom-select" required>
+                        <option value="" disabled selected>Choose Religion</option>
+                        <% if(family.religion == 1){ 
+                            var a = 'selected';
+                        }else if(family.religion == 2){ 
+                            var b = 'selected';
+                        }else if(family.religion == 3){ 
+                            var c = 'selected';
+                        }else if(family.religion == 4){ 
+                            var d = 'selected';
+                        } %>
+                        <option value="1" <%= a %> >Hinduism</option>
+                        <option value="2" <%= b %> >Christianity</option>
+                        <option value="3" <%= c %> >Buddhism</option>
+                        <option value="4" <%= d %> >Islam</option>
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <select name="family[ethnic]" class="form-control custom-select" required>
+                        <option value="" disabled selected>Choose Ethnic</option>
+                        <% if(family.ethnic == 1){ 
+                            var e = 'selected';
+                        }else if(family.ethnic == 2){ 
+                            var f = 'selected';
+                        }else if(family.ethnic == 3){ 
+                            var g = 'selected';
+                        }else if(family.ethnic == 3){ 
+                            var h = 'selected';
+                        } %>
+                        <option value="1" <%= e %> >Tamils</option>
+                        <option value="2" <%= f %> >Sinhalese</option>
+                        <option value="3" <%= g %> >Indian Tamils</option>
+                        <option value="4" <%= h %> >Muslims</option>
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" value="<%= family.job %>" name="family[job]" placeholder="Enter your Job">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" value="<%= family.monthlyIncome %>" name="family[monthlyIncome]" placeholder="Enter Monthly Income">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <select name="family[gnDivision]" class="form-control custom-select" required data-rule="required" data-msg="Please select one">
+                        <option value="" disabled selected>Choose GN Division</option>
+                        <% if(family.gnDivision == 1){ 
+                            var i = 'selected';
+                        }else if(family.gnDivision == 2){ 
+                            var j = 'selected';
+                        } %>
+                        <option value="1" <%= i %> >Barathinagar</option>
+                        <option value="2" <%= j %> >Pugalenthinagar</option>
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <select name="family[dsDivision]" class="form-control custom-select" required data-rule="required" data-msg="Please select one">
+                        <option value="" disabled selected>Choose DS Division</option>
+                        <% if(family.dsDivision == 1){ 
+                            var k = 'selected';
+                        }else if(family.dsDivision == 2){ 
+                            var l = 'selected';
+                        } %>
+                        <option value="1" <%= k %> >Thunukkai</option>
+                        <option value="2" <%= l %> >Pandiyankulam</option>
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-6 col-md-6">
+                    <textarea type="text"  class="form-control" name="family[temporaryAddress]" placeholder="Enter Temporary Address"><%= family.temporaryAddress %></textarea>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-6 col-md-6">
+                    <textarea type="text"  class="form-control" name="family[permanentAddress]" placeholder="Enter Permanent Address"><%= family.permanentAddress %></textarea>
+                    <div class="validate"></div>
+                </div>
+            </div>
+      
+            <div class="mb-3">
+                <div id="check"></div>
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Registered Successfully!</div>
+            </div>
+            <div class="m-auto col-lg-3">
+                <button type="submit" class="btn btn-primary btn-user btn-block"> Save Changes</button>  
+            </div>
+                
+        </form>
+    </div>
+</div>
+
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+<%- include('../partials/footer'); %>

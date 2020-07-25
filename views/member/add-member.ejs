@@ -1,0 +1,100 @@
+<%- include('../partials/header'); %>
+
+<!-- Begin Page Content -->
+<div class="container">
+    <div class="row justify-content-center mb-3">
+
+        <!-- Login Text -->
+        <h4 class="text-center mb-3 border-bottom pb-2">Add Member to <%= family.fname %>'s Family</h4>
+
+        <form action="/add-member?id=<%= family.id %>" method="POST" class="validation user">
+            <div class="form-row">
+                <div class="form-group col-lg-4 col-md-4">
+                    <select name="member[relation]" class="form-control custom-select" required data-rule="required" data-msg="Please select one">
+                        <option value="" disabled selected>Choose Relationship</option>
+                        <option value="1">Wife</option>
+                        <option value="2">Daughter</option>
+                        <option value="3">Son</option>
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="member[fname]" placeholder="Enter First Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="member[lname]" placeholder="Enter Last Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="member[dob]" id="datepicker" placeholder="Enter Date of Birth" data-rule="required" data-msg="Please enter date of birth">
+                    <div class="validate"></div>
+                    <script>
+                        $('#datepicker').datepicker({
+                            uiLibrary: 'bootstrap4'
+                        });
+                    </script> 
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="member[nic]" placeholder="Enter NIC Number">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="email" class="form-control" name="member[email]" placeholder="Enter Email">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="member[mobile]" placeholder="Enter Mobile Number">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <select name="member[religion]" required class="form-control custom-select" >
+                        <option value="" disabled selected>Choose Religion</option>
+                        <option value="1">Hinduism</option>
+                        <option value="2">Christianity</option>
+                        <option value="3">Buddhism</option>
+                        <option value="4">Islam</option>
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <select name="member[ethnic]" required class="form-control custom-select ">
+                        <option value="" disabled selected>Choose Ethnic</option>
+                        <option value="1">Tamils</option>
+                        <option value="2">Sinhalese</option>
+                        <option value="3">Indian Tamils</option>
+                        <option value="4">Muslims</option>
+                    </select>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="member[job" placeholder="Enter your Job">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="member[monthlyIncome" placeholder="Enter Monthly Income">
+                    <div class="validate"></div>
+                </div>
+            </div>
+      
+            <div class="mb-3">
+                <div id="check"></div>
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Registered Successfully!</div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <a type="button" href="/show-family?id=<%= family.id %>" class="btn btn-danger btn-user mr-3"> Go Back </a>
+                <button type="submit" class="btn btn-primary btn-user"> Create</button>  
+            </div>
+                
+        </form>
+    </div>
+</div>
+
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+<%- include('../partials/footer'); %>

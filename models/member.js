@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 
 var memberSchema = mongoose.Schema({
+    relation:String,
     fname:String,
     lname: String,
     dob:String,
@@ -8,12 +9,9 @@ var memberSchema = mongoose.Schema({
     email:String,
     mobile:String,
     religion:String,
-    cast:String,
+    ethnic:String,
     job:String,
-    monthlyIncome:String,
-    relation:String,
-    temporaryAddress:String,
-    about: String,
+    monthlyIncome:String,    
     gs:String
 });
 

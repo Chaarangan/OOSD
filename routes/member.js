@@ -1,49 +1,53 @@
 var express     = require("express"),
     router      = express.Router(),
     Family  = require("../models/family"),
-    Member     = require("../models/member");
+    Member     = require("../models/member"),
+    url = require("url");
     
 
-router.get("/family/:id/member/new",isLoggedIn,function(req,res){
+router.get("/add-member", function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
     //find family by id
-    Family.findById(req.params.id,function(err,family){
+    Family.findById(qdata.id,function(err,family){
         if(err){
             console.log(err);
         }else{
-            res.render("member/new",{family:family});
+            res.render("member/add-member",{family:family});
         }
     });
     
 });
 
-router.post("/family/:id/member",isLoggedIn,function(req,res){
+router.post("/add-member", function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query;
     //lookup family using id
-    Family.findById(req.params.id,function(err,family){
+    Family.findById(qdata.id,function(err,family){
         if(err){
-            console.log(err);
-            res.redirect("/family");
+            res.send(err);
         }else{
             //create new member
             Member.create(req.body.member,function(err,member){
                 if(err){
-                    console.log(err);
+                    res.send(err);
                 }else{
                     //connect new member to family
                     // add username and id to member
-                    member.author.id = req.user._id;
-                    member.author.username = req.user.username;
+                    member.gs = global.userEmail;
                     // save member
                     member.save();
                     family.members.push(member);
                     family.save();
                     //redirect family show page
-                    req.flash("success","successfully added member");
-                    res.redirect("/family/"+ family._id);
+                    res.send("/show-family?id=" + qdata.id);
                 }
             });
         }
     });
 });
+
+
 // edit member route
 router.get("/family/:id/member/:member_id/edit",checkMemberOwnership,function(req,res){
     Member.findById(req.params.member_id,function(err,foundmember){

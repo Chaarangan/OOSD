@@ -5,7 +5,7 @@
     <div class="row justify-content-center mb-3">
 
         <!-- Login Text -->
-        <h4 class="text-center mb-3">Add Family</h4>
+        <h4 class="text-center mb-3 border-bottom pb-2">Add Family</h4>
 
         <form action="/add-family" method="POST" class="validation user">
             <div class="form-row">
@@ -39,22 +39,22 @@
                     <div class="validate"></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
-                    <select name="religion" class="form-control custom-select" >
+                    <select name="religion" class="form-control custom-select" required>
                         <option value="" disabled selected>Choose Religion</option>
-                        <option value="Hinduism">Hinduism</option>
-                        <option value="Christianity">Christianity</option>
-                        <option value="Buddhism">Buddhism</option>
-                        <option value="Islam">Islam</option>
+                        <option value="1">Hinduism</option>
+                        <option value="2">Christianity</option>
+                        <option value="3">Buddhism</option>
+                        <option value="4">Islam</option>
                     </select>
                     <div class="validate"></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
-                    <select name="ethnic" class="form-control custom-select ">
+                    <select name="ethnic" class="form-control custom-select" required>
                         <option value="" disabled selected>Choose Ethnic</option>
-                        <option value="Tamils">Tamils</option>
-                        <option value="Sinhalese">Sinhalese</option>
-                        <option value="Indian Tamils">Indian Tamils</option>
-                        <option value="Muslims">Muslims</option>
+                        <option value="1">Tamils</option>
+                        <option value="2">Sinhalese</option>
+                        <option value="3">Indian Tamils</option>
+                        <option value="4">Muslims</option>
                     </select>
                     <div class="validate"></div>
                 </div>
@@ -67,18 +67,18 @@
                     <div class="validate"></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
-                    <select name="gnDivision" class="form-control custom-select " data-rule="required" data-msg="Please select one">
+                    <select name="gnDivision" class="form-control custom-select" required data-rule="required" data-msg="Please select one">
                         <option value="" disabled selected>Choose GN Division</option>
-                        <option value="Barathinagar">Barathinagar</option>
-                        <option value="Pugalenthinagar">Pugalenthinagar</option>
+                        <option value="1">Barathinagar</option>
+                        <option value="2">Pugalenthinagar</option>
                     </select>
                     <div class="validate"></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
-                    <select name="dsDivision" class="form-control custom-select " data-rule="required" data-msg="Please select one">
+                    <select name="dsDivision" class="form-control custom-select" required data-rule="required" data-msg="Please select one">
                         <option value="" disabled selected>Choose DS Division</option>
-                        <option value="Thunukkai">Thunukkai</option>
-                        <option value="Pandiyankulam">Pandiyankulam</option>
+                        <option value="1">Thunukkai</option>
+                        <option value="2">Pandiyankulam</option>
                     </select>
                     <div class="validate"></div>
                 </div>
