@@ -21,9 +21,14 @@ let transporter = nodemailer.createTransport(smtpTransport({
       }
 }));
 
+//landing route
+router.get("/landing", isLoggedIn, function(req,res){
+    res.render("landing/index");
+});
+
 // root route
 router.get("/",function(req,res){
-    res.render("landing/index");
+    res.render("login");
 });
 
 // change password
@@ -130,7 +135,7 @@ router.put("/activate",function(req,res){
         }else{
             if(foundUser[0].code == req.body.code){
                 User.updateOne({"email":global.userEmail}, { $set: {status: 1} },function(err, user){
-                    res.send("/");
+                    res.send("/login");
                 });
             }else{
                 res.send("Invalid Code!");
@@ -223,7 +228,7 @@ router.post("/login", function(req,res){
                             res.send(req.session.returnTo || '/');
                             delete req.session.returnTo;
                         }else{                                
-                            res.send("/");
+                            res.send("/landing");
                         }                                 
                     }
                     else{
@@ -242,7 +247,7 @@ router.get("/logout",function(req,res){
     global.sess = false;
     global.userEmail = "";
     req.logOut();
-    res.redirect("/");
+    res.redirect("/login");
 });
 
 //check loggedin
@@ -252,7 +257,7 @@ function isLoggedIn(req,res,next){
     }
     else{
         req.session.returnTo = req.originalUrl; 
-        res.render("/login");
+        res.redirect("/login");
     }
 }
 

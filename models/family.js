@@ -1,20 +1,22 @@
 var mongoose    = require("mongoose");
 // schema setup
 var familySchema = new mongoose.Schema({
-    name:String,
-    nic_no:String,
-    per_address:String,
-    tem_address:String,
-    gs_div:String,
-    about:String,
-    author: {
-        id:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"User"
-        },
-        username:String,
-        designition:String
-    },
+    fname:String,
+    lname: String,
+    dob:String,
+    nic:String,
+    email:String,
+    mobile:String,
+    religion:String,
+    ethnic:String,
+    job:String,
+    monthlyIncome:String,
+    temporaryAddress:String,
+    permanentAddress:String,
+    gnDivision:String,
+    dsDivision:String,
+    membersNum:Number,
+    gs:String,
     members: [
         {
             type: mongoose.Schema.Types.ObjectId,

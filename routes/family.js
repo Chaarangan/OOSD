@@ -1,3 +1,5 @@
+const { EDESTADDRREQ } = require("constants");
+
 var express     = require("express"),
     router      = express.Router(),
     Family  = require("../models/family");
@@ -9,33 +11,32 @@ router.get("/add-family", isLoggedIn, function(req,res){
     res.render("family/add-family");
 });
 
-router.post("/family",isLoggedIn,function(req,res){
+router.post("/add-family",isLoggedIn, function(req,res){
     // get data from form and add to FAMILY array
-    var name = req.body.name;
-        nic_no = req.body.nic_no,
-        per_address = req.body.per_address,
-        tem_address = req.body.tem_address,
-        gs_div = req.body.gs_div,
-        about = req.body.about;
-    var author = {
-        id:req.user._id,
-        username: req.user.username,
-        designition: req.user.designition
-    };
-    var newFamily = {name:name, nic_no: nic_no,per_address:per_address,tem_address:tem_address,gs_div:gs_div,about:about,author:author};
+    var newFamily = {fname:req.body.fname, lname:req.body.lname, dob: req.body.dob, nic: req.body.nic, email:req.body.email, mobile:req.body.mobile, religion:req.body.religion, ethnic: req.body.ethnic, job:req.body.job, monthlyIncome: req.body.monthlyIncome, temporaryAddress: req.body.temporaryAddress, permanentAddress: req.body.permanentAddress, gnDivision:req.body.gnDivision, dsDivision:req.body.dsDivision, membersNum:req.body.membersNum, gs:global.userEmail};
     
     //create a new FAMILY and save to db
     Family.create(newFamily,function(err,newlyCreated){
         if(err){
-            console.log(err);
+            res.send(err);
         }else{
             //redirect back to FAMILY page
-            console.log(newlyCreated);
-            res.redirect("/family");
+            res.send("OK");
         }
     })
-    //family.push(newCampground);
 });
+
+//add famlily
+router.get("/search-family", function(req,res){
+    Family.find({},function(err,allFamily){
+        if(err){
+            res.redirect("/search-family");
+        }else{
+            res.render("family/search-family",{families:allFamily});
+        }
+    })
+});
+
 
 router.get("/family",function(req,res){
     //get all FAMILY from db
@@ -165,13 +166,16 @@ router.post("/family/queries",isLoggedIn,function(req,res){
         })
 });
 
-///------------------------------------------
+
+//check loggedin
 function isLoggedIn(req,res,next){
-    if(req.isAuthenticated()){
+    if(global.sess == true){
         return next();
     }
-    req.flash("error","You need to be login first");
-    res.redirect("/login")
+    else{
+        req.session.returnTo = req.originalUrl; 
+        res.redirect("/login");
+    }
 }
 
 

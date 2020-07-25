@@ -18,7 +18,16 @@
                     <div class="validate"></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
-                    <input type="text" class="form-control" name="nic" placeholder="Enter NIC Number" data-rule="minlen:10" data-msg="Please enter at least 10 chars">
+                    <input type="text" class="form-control" name="dob" id="datepicker" placeholder="Enter Date of Birth" data-rule="required" data-msg="Please enter date of birth">
+                    <div class="validate"></div>
+                    <script>
+                        $('#datepicker').datepicker({
+                            uiLibrary: 'bootstrap4'
+                        });
+                    </script> 
+                </div>
+                <div class="form-group col-lg-4 col-md-4">
+                    <input type="text" class="form-control" name="nic" placeholder="Enter NIC Number">
                     <div class="validate"></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
@@ -26,63 +35,59 @@
                     <div class="validate"></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
-                    <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile Number" data-rule="minlen:10" data-msg="Please enter at least 10 chars">
+                    <input type="text" class="form-control" name="mobile" placeholder="Enter Mobile Number">
                     <div class="validate"></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
-                    <select name="religion" class="form-control custom-select " data-rule="required" data-msg="Please select one">
+                    <select name="religion" class="form-control custom-select" >
                         <option value="" disabled selected>Choose Religion</option>
-                        <option value="1">Hindu</option>
-                        <option value="2">Christian</option>
-                        <option value="3">Bushist</option>
-                        <option value="4">Muslim</option>
+                        <option value="Hinduism">Hinduism</option>
+                        <option value="Christianity">Christianity</option>
+                        <option value="Buddhism">Buddhism</option>
+                        <option value="Islam">Islam</option>
                     </select>
                     <div class="validate"></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
-                    <select name="cast" class="form-control custom-select " data-rule="required" data-msg="Please select one">
-                        <option value="" disabled selected>Choose Cast</option>
-                        <option value="1"></option>
-                        <option value="2"></option>
-                        <option value="3"></option>
-                        <option value="4"></option>
+                    <select name="ethnic" class="form-control custom-select ">
+                        <option value="" disabled selected>Choose Ethnic</option>
+                        <option value="Tamils">Tamils</option>
+                        <option value="Sinhalese">Sinhalese</option>
+                        <option value="Indian Tamils">Indian Tamils</option>
+                        <option value="Muslims">Muslims</option>
                     </select>
                     <div class="validate"></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
-                    <input type="text" class="form-control" name="job" placeholder="Enter your Job" data-rule="required" data-msg="Please enter a value">
+                    <input type="text" class="form-control" name="job" placeholder="Enter your Job">
                     <div class="validate"></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
-                    <input type="text" class="form-control" name="monthlyIncome" placeholder="Enter Monthly Income" data-rule="required" data-msg="Please enter a value">
-                    <div class="validate"></div>
-                </div>
-                <div class="form-group col-lg-6 col-md-6">
-                    <textarea type="text"  class="form-control" name="temporaryAddress" placeholder="Enter Temporary Address" data-rule="minlen:1" data-msg="Please enter at least 1 chars"></textarea>
-                    <div class="validate"></div>
-                </div>
-                <div class="form-group col-lg-6 col-md-6">
-                    <textarea type="text"  class="form-control" name="permanentAddress" placeholder="Enter Permanent Address" data-rule="minlen:1" data-msg="Please enter at least 1 chars"></textarea>
+                    <input type="text" class="form-control" name="monthlyIncome" placeholder="Enter Monthly Income">
                     <div class="validate"></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
-                    <select name="gn_division" class="form-control custom-select " data-rule="required" data-msg="Please select one">
+                    <select name="gnDivision" class="form-control custom-select " data-rule="required" data-msg="Please select one">
                         <option value="" disabled selected>Choose GN Division</option>
-                        <option value="1">Barathinagar</option>
-                        <option value="2">Pugalenthinagar</option>
+                        <option value="Barathinagar">Barathinagar</option>
+                        <option value="Pugalenthinagar">Pugalenthinagar</option>
                     </select>
                     <div class="validate"></div>
                 </div>
                 <div class="form-group col-lg-4 col-md-4">
-                    <select name="ds_division" class="form-control custom-select " data-rule="required" data-msg="Please select one">
+                    <select name="dsDivision" class="form-control custom-select " data-rule="required" data-msg="Please select one">
                         <option value="" disabled selected>Choose DS Division</option>
-                        <option value="1">Thunukkai</option>
-                        <option value="2">Pandiyankulam</option>
+                        <option value="Thunukkai">Thunukkai</option>
+                        <option value="Pandiyankulam">Pandiyankulam</option>
                     </select>
                     <div class="validate"></div>
                 </div>
-                <div class="form-group col-lg-4 col-md-4">
-                    <input type="text" class="form-control" name="membersNum" placeholder="Enter Members Count" data-rule="required" data-msg="Please enter a value">
+                <div class="form-group col-lg-6 col-md-6">
+                    <textarea type="text"  class="form-control" name="temporaryAddress" placeholder="Enter Temporary Address"></textarea>
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-lg-6 col-md-6">
+                    <textarea type="text"  class="form-control" name="permanentAddress" placeholder="Enter Permanent Address"></textarea>
                     <div class="validate"></div>
                 </div>
             </div>

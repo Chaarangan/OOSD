@@ -129,7 +129,7 @@
         if (msg == 'OK') {
           this_form.find('.loading').slideUp();
           this_form.find('.sent-message').slideDown();
-          this_form.find("input:not(input[type=submit]), textarea").val('');
+          this_form.find("input:not(input[type=submit]), textarea, select").val('');
         } else if(msg[0] == "/"){
             this_form.find('.loading').slideUp();
             window.location.assign(msg);
