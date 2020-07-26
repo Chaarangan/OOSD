@@ -5,9 +5,9 @@
       <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-1 text-gray-800">Edit Family</h1>
-        <p class="mb-4">Edit this family. It will automatically add this family under your GN Division.</p>
-        <form action="/edit-family?id=<%= family._id %>" method="POST" class="validation user">
+        <h1 class="h3 mb-1 text-gray-800">Edit Member</h1>
+        <p class="mb-4">Edit this Member of <%= family.fname %>'s Family. It will automatically add this family under your GN Division.</p>
+        <form action="/edit-member?id=<%= member._id %>&fid=<%= member.familyID %>" method="POST" class="validation user">
             <!-- Content Row -->
             <div class="row">
 
@@ -21,15 +21,31 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="family[fname]" value="<%= family.fname %>" placeholder="Enter Family First Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                        <select name="member[relation]" class="form-control custom-select" required data-rule="required" data-msg="Please select one">
+                            <option value="" disabled selected>Choose Relationship</option>
+                            <% if(member.relation == 1){ 
+                                var i = 'selected';
+                            }else if(member.relation == 2){ 
+                                var j = 'selected';
+                            }else if(member.relation == 3){ 
+                                var k = 'selected';
+                            } %>
+                            <option value="1" <%= i %> >Wife</option>
+                            <option value="2" <%= j %> >Daughter</option>
+                            <option value="3" <%= k %> >Son</option>
+                        </select>
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="family[lname]" value="<%= family.lname %>" placeholder="Enter Family Last Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                        <input type="text" class="form-control" name="member[fname]" value="<%= member.fname %>" placeholder="Enter First Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="family[dob]" value="<%= family.dob %>" id="datepicker" placeholder="Enter Date of Birth" data-rule="required" data-msg="Please enter date of birth">
+                        <input type="text" class="form-control" name="member[lname]" value="<%= member.lname %>" placeholder="Enter Last Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                        <div class="validate"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="member[dob]" value="<%= member.dob %>" id="datepicker" placeholder="Enter Date of Birth" data-rule="required" data-msg="Please enter date of birth">
                         <div class="validate"></div>
                         <script>
                             $('#datepicker').datepicker({
@@ -38,19 +54,19 @@
                         </script> 
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="family[nic]" value="<%= family.nic %>" placeholder="Enter NIC Number">
+                        <input type="text" class="form-control" name="member[nic]" value="<%= member.nic %>" placeholder="Enter NIC Number">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <select name="family[religion]" class="form-control custom-select" required>
+                        <select name="member[religion]" class="form-control custom-select" required>
                             <option value="" disabled selected>Choose Religion</option>
-                            <% if(family.religion == 1){ 
+                            <% if(member.religion == 1){ 
                                 var a = 'selected';
-                            }else if(family.religion == 2){ 
+                            }else if(member.religion == 2){ 
                                 var b = 'selected';
-                            }else if(family.religion == 3){ 
+                            }else if(member.religion == 3){ 
                                 var c = 'selected';
-                            }else if(family.religion == 4){ 
+                            }else if(member.religion == 4){ 
                                 var d = 'selected';
                             } %>
                             <option value="1" <%= a %> >Hinduism</option>
@@ -61,15 +77,15 @@
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <select name="family[ethnic]" class="form-control custom-select" required>
+                        <select name="member[ethnic]" class="form-control custom-select" required>
                             <option value="" disabled selected>Choose Ethnic</option>
-                            <% if(family.ethnic == 1){ 
+                            <% if(member.ethnic == 1){ 
                                 var e = 'selected';
-                            }else if(family.ethnic == 2){ 
+                            }else if(member.ethnic == 2){ 
                                 var f = 'selected';
-                            }else if(family.ethnic == 3){ 
+                            }else if(member.ethnic == 3){ 
                                 var g = 'selected';
-                            }else if(family.ethnic == 3){ 
+                            }else if(member.ethnic == 4){ 
                                 var h = 'selected';
                             } %>
                             <option value="1" <%= e %> >Tamils</option>
@@ -94,19 +110,11 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" value="<%= family.job %>" name="family[job]" placeholder="Enter your Job">
+                        <input type="text" class="form-control" value="<%= member.job %>" name="member[job]" placeholder="Enter your Job">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" value="<%= family.monthlyIncome %>" name="family[monthlyIncome]" placeholder="Enter Monthly Income">
-                        <div class="validate"></div>
-                    </div>                
-                    <div class="form-group">
-                        <textarea type="text"  class="form-control" name="family[temporaryAddress]" placeholder="Enter Temporary Address"><%= family.temporaryAddress %></textarea>
-                        <div class="validate"></div>
-                    </div>
-                    <div class="form-group">
-                        <textarea type="text"  class="form-control" name="family[permanentAddress]" placeholder="Enter Permanent Address"><%= family.permanentAddress %></textarea>
+                        <input type="text" class="form-control" value="<%= member.monthlyIncome %>" name="member[monthlyIncome]" placeholder="Enter Monthly Income">
                         <div class="validate"></div>
                     </div>                   
                 </div>
@@ -124,11 +132,11 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <input type="email" class="form-control" name="family[email]" placeholder="Enter Email" value="<%= family.email %>">
+                        <input type="email" class="form-control" name="member[email]" placeholder="Enter Email" value="<%= member.email %>">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="family[mobile]" placeholder="Enter Mobile Number" value="<%= family.mobile %>">
+                        <input type="text" class="form-control" name="member[mobile]" placeholder="Enter Mobile Number" value="<%= member.mobile %>">
                         <div class="validate"></div>
                     </div>
                 </div>
@@ -143,7 +151,7 @@
                 <div class="sent-message">Changed Successfully!</div>
             </div>
             <div class="d-flex justify-content-center">
-                <a type="button" class="btn btn-danger btn-user mr-3" href="/show-family?id=<%= family._id %>">Back</a>
+                <a type="button" href="/show-family?id=<%= member.familyID %>" class="btn btn-danger btn-user mr-3"> Go Back </a>
                 <button type="submit" class="btn btn-primary btn-user"> Save Changes</button>  
             </div>
                 

@@ -3,19 +3,20 @@ const { EDESTADDRREQ } = require("constants");
 var express     = require("express"),
     router      = express.Router(),
     Family  = require("../models/family"),
+    Member     = require("../models/member"),
     url = require("url");
 
 
 //add famlily
-router.get("/add-family", isLoggedIn, function(req,res){
+router.get("/add-family", isGsClerk, function(req,res){
     res.render("family/add-family");
 });
 
 
 //add family post
-router.post("/add-family",isLoggedIn, function(req,res){
+router.post("/add-family",isGsClerk, function(req,res){
     // get data from form and add to FAMILY array
-    var newFamily = {fname:req.body.fname, lname:req.body.lname, dob: req.body.dob, nic: req.body.nic, email:req.body.email, mobile:req.body.mobile, religion:req.body.religion, ethnic: req.body.ethnic, job:req.body.job, monthlyIncome: req.body.monthlyIncome, temporaryAddress: req.body.temporaryAddress, permanentAddress: req.body.permanentAddress, gnDivision:req.body.gnDivision, dsDivision:req.body.dsDivision, gs:global.userEmail};
+    var newFamily = {fname:req.body.fname, lname:req.body.lname, dob: req.body.dob, nic: req.body.nic, email:req.body.email, mobile:req.body.mobile, religion:req.body.religion, ethnic: req.body.ethnic, job:req.body.job, monthlyIncome: req.body.monthlyIncome, temporaryAddress: req.body.temporaryAddress, permanentAddress: req.body.permanentAddress, gnDivision:global.division, dsDivision: "Thunukkai", division:global.division};
     
     //create a new FAMILY and save to db
     Family.create(newFamily,function(err,newlyCreated){
@@ -30,7 +31,7 @@ router.post("/add-family",isLoggedIn, function(req,res){
 
 
 // edit family route
-router.get("/edit-family", function(req,res){
+router.get("/edit-family", isGsClerk, isFamilyOwn, function(req,res){
     var q = url.parse(req.url, true);
     var qdata = q.query; 
 
@@ -42,7 +43,7 @@ router.get("/edit-family", function(req,res){
 
 
 // update family
-router.post("/edit-family", function(req,res){
+router.post("/edit-family", isGsClerk, isFamilyOwn, function(req,res){
     var q = url.parse(req.url, true);
     var qdata = q.query; 
     // find and update the correct family
@@ -56,32 +57,46 @@ router.post("/edit-family", function(req,res){
 });
     
 // show family
-router.get("/show-family", function(req,res){
+router.get("/show-family", isLoggedIn, function(req,res){
     var q = url.parse(req.url, true);
     var qdata = q.query; 
-
-    Family.findById(qdata.id,function(err,foundFamily){
-        //render show template with that family
-        console.log(foundFamily);
-        res.render("family/show-family",{family:foundFamily});
+    
+    //find family
+    Family.findById(qdata.id, function(err,foundFamily){
+        if(err){
+            console.log(err);
+        }else{ 
+            Member.find({"familyID": qdata.id}, function(err, foundMembers){ 
+                if(err){
+                    console.log(err);
+                }else{ 
+                    res.render("family/show-family",{family:foundFamily, members: foundMembers});
+                }
+            });
+        }
     });
 });
 
 
 //search famlily
-router.get("/search-family", function(req,res){
+router.get("/search-family", isLoggedIn, function(req,res){
     Family.find({},function(err,allFamily){
         if(err){
             res.redirect("/search-family");
         }else{
-            res.render("family/search-family",{families:allFamily});
+            if(allFamily.length > 0){                
+                res.render("family/search-family",{families:allFamily});
+            }           
+            else{
+                res.render("landing/index");
+            } 
         }
     })
 });
 
 
 // delete route
-router.get("/delete-family", function(req,res){
+router.get("/delete-family", isGS, isFamilyOwn, function(req,res){
     var q = url.parse(req.url, true);
     var qdata = q.query; 
 
@@ -122,6 +137,73 @@ function isLoggedIn(req,res,next){
         req.session.returnTo = req.originalUrl; 
         res.redirect("/login");
     }
+}
+
+//check DS
+function isDS(req,res,next){
+    if(global.sess == true){
+        if(global.level == 4){
+            return next();
+        }
+        else{
+            res.redirect("/landing");
+        }
+    }
+    else{
+        req.session.returnTo = req.originalUrl; 
+        res.redirect("/login");
+    }    
+}
+
+//check GS
+function isGS(req,res,next){
+    if(global.sess == true){
+        if(global.level == 3){
+            return next();
+        }
+        else{
+            res.redirect("/landing");
+        }
+    }
+    else{
+        req.session.returnTo = req.originalUrl; 
+        res.redirect("/login");
+    }
+}
+
+//check GS and Clerk
+function isGsClerk(req,res,next){
+    if(global.sess == true){
+        if(global.level == 3 || global.level == 2){
+            return next();
+        }
+        else{
+            res.redirect("/landing");
+        }
+    }
+    else{
+        req.session.returnTo = req.originalUrl; 
+        res.redirect("/login");
+    }
+}
+
+//check own
+function isFamilyOwn(req,res,next){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+    // find and update the correct family
+    Family.findById(qdata.id, function(err,foundFamily){
+        if(err){
+            console.log(err);
+        }else{
+            if(global.division == foundFamily.division){
+                return next();
+            }
+            else{
+                res.redirect("/landing");
+            }
+        }
+    });
 }
 
 

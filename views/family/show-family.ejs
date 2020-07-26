@@ -7,15 +7,25 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800"><%= family.fname + ' ' + family.lname %></h1>
       <div class="d-flex justify-content-end">
-        <a href="/edit-family?id=<%= family._id %>" class="btn btn-success btn-circle btn-sm mr-3" data-toggle="tooltip" data-placement="top" title="Edit <%= family.fname %>">
-          <i class="fas fa-pen"></i>
-        </a>
-        <a href="#" class="btn btn-danger btn-circle btn-sm mr-3"  data-toggle="modal" data-target="#deleteFamily">
-          <i class="fas fa-trash"></i>
-        </a>
-        <a href="/add-member?id=<%= family._id %>" class="btn btn-primary btn-circle btn-sm" data-toggle="tooltip" data-placement="top" title="Add Member">
-          <i class="fas fa-plus"></i>
-        </a>
+        <% if(global.level == 3 && global.division == family.division){ %>
+          <a href="/edit-family?id=<%= family._id %>" class="btn btn-success btn-circle btn-sm mr-3" data-toggle="tooltip" data-placement="top" title="Edit <%= family.fname %>">
+            <i class="fas fa-pen"></i>
+          </a>
+          <a href="#" class="btn btn-danger btn-circle btn-sm mr-3"  data-toggle="modal" data-target="#deleteFamily<%= family.id %>">
+            <i class="fas fa-trash"></i>
+          </a>
+          <a href="/add-member?id=<%= family._id %>" class="btn btn-primary btn-circle btn-sm" data-toggle="tooltip" data-placement="top" title="Add Member">
+            <i class="fas fa-plus"></i>
+          </a>
+        <% } %>
+        <% if(global.level == 2 && global.division == family.division){ %>
+          <a href="/edit-family?id=<%= family._id %>" class="btn btn-success btn-circle btn-sm mr-3" data-toggle="tooltip" data-placement="top" title="Edit <%= family.fname %>">
+            <i class="fas fa-pen"></i>
+          </a>
+          <a href="/add-member?id=<%= family._id %>" class="btn btn-primary btn-circle btn-sm" data-toggle="tooltip" data-placement="top" title="Add Member">
+            <i class="fas fa-plus"></i>
+          </a>
+        <% } %>
       </div>      
     </div>
 
@@ -28,7 +38,7 @@
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Monthly)</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800"><%= family.monthlyIncome %></div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -45,7 +55,7 @@
             <div class="row no-gutters align-items-center">
               <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800">Rs.3000K</div>
               </div>
               <div class="col-auto">
                 <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -164,11 +174,11 @@
                 <div class="col-lg-6">
                     <% if(family.ethnic == 1){ %>
                         Tamils
-                    <% }else if(family.religion == 2){ %>
+                    <% }else if(family.ethnic == 2){ %>
                         Sinhalese
-                    <% }else if(family.religion == 3){ %>
+                    <% }else if(family.ethnic == 3){ %>
                         Indian Tamils
-                    <% }else if(family.religion == 4){ %>
+                    <% }else if(family.ethnic == 4){ %>
                         Muslims
                     <% } %>
                 </div>
@@ -291,19 +301,35 @@
     <h1 class="text-center border-bottom pb-2 mt-3">Members</h1>
 
 
-    <% family.members.forEach(function(member) { %>
+    <% members.forEach(function(member) { %>
 
     <!--Member Start-->
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h1 class="h3 mb-0 text-gray-800"><%= member.fname + ' ' + member.lname %></h1>
+      <h1 class="h3 mb-0 text-gray-800">
+          <% if(member.relation == 1){ %>
+              Wife :
+          <% } else if(member.relation == 2) { %>
+              Daughter :
+          <% } else if(member.relation == 3) { %>
+              Son :
+          <% } %>
+        <%= member.fname + ' ' + member.lname %>
+      </h1>
       <div class="d-flex justify-content-end">
-        <a href="/edit-member?id=<%= member._id %>" class="btn btn-success btn-circle btn-sm mr-3" data-toggle="tooltip" data-placement="top" title="Edit <%= member.fname %>">
-          <i class="fas fa-pen"></i>
-        </a>
-        <a href="#" class="btn btn-danger btn-circle btn-sm mr-3"  data-toggle="modal" data-target="#deleteMember">
-          <i class="fas fa-trash"></i>
-        </a>
+        <% if(global.level == 3 && global.division == member.division){ %>
+          <a href="/edit-member?id=<%= member._id %>" class="btn btn-success btn-circle btn-sm mr-3" data-toggle="tooltip" data-placement="top" title="Edit <%= member.fname %>">
+            <i class="fas fa-pen"></i>
+          </a>
+          <a href="#" class="btn btn-danger btn-circle btn-sm mr-3"  data-toggle="modal" data-target="#deleteMember<%= member.id %>">
+            <i class="fas fa-trash"></i>
+          </a>
+        <% } %>
+        <% if(global.level == 2 && global.division == member.division){ %>
+          <a href="/edit-member?id=<%= member._id %>" class="btn btn-success btn-circle btn-sm mr-3" data-toggle="tooltip" data-placement="top" title="Edit <%= member.fname %>">
+            <i class="fas fa-pen"></i>
+          </a>
+        <% } %>
       </div>      
     </div>
 
@@ -495,7 +521,7 @@
 
     </div>
     <!-- Delete Family Modal-->
-    <div class="modal fade" id="deleteFamily" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteMember<%= member.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -507,7 +533,7 @@
           <div class="modal-body">Select "Delete" below if you are ready to delete <%= member.fname %>.</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="/delete-member?id=<%= member._id %>">Delete</a>
+            <a class="btn btn-primary" href="/delete-member?id=<%= member._id %>&fid=<%= member.familyID %>">Delete</a>
           </div>
         </div>
       </div>
@@ -521,7 +547,7 @@
 <!-- End of Main Content -->
 
   <!-- Delete Family Modal-->
-  <div class="modal fade" id="deleteFamily" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="deleteFamily<%= family.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">

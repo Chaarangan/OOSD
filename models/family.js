@@ -14,8 +14,8 @@ var familySchema = new mongoose.Schema({
     temporaryAddress:String,
     permanentAddress:String,
     gnDivision:Number,
-    dsDivision:Number,
-    gs:String,
+    dsDivision:String,
+    division:Number,
     members: [
         {
             type: mongoose.Schema.Types.ObjectId,

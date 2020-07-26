@@ -8,6 +8,8 @@ var express     = require("express"),
 global.userEmail;
 global.sess;
 global.user;
+global.level;
+global.division;
 
 //mailer
 const nodemailer = require('nodemailer');  
@@ -21,17 +23,137 @@ let transporter = nodemailer.createTransport(smtpTransport({
       }
 }));
 
-//landing route
-router.get("/landing", isLoggedIn, function(req,res){
-    res.render("landing/index");
+// delete gs
+router.get("/delete-clerk", isClerkOwn, function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+
+    //destroy family
+    User.findByIdAndRemove(qdata.id, function(err){
+        if(err){
+            console.log(err);
+        }else{
+            //redirect
+            res.redirect("/search-clerk");
+        }
+    });
 });
+
+//search clerk
+router.get("/search-clerk", isGsDs, function(req,res){
+    User.find({"level":2}, function(err,allClerk){
+        if(allClerk.length > 0){                
+            res.render("users/search-clerk",{clerks : allClerk});
+        }           
+        else{
+            res.render("landing/index");
+        } 
+    })
+});
+
+// delete gs
+router.get("/delete-gs", isDS, function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+
+    //destroy family
+    User.findByIdAndRemove(qdata.id, function(err){
+        if(err){
+            console.log(err);
+        }else{
+            //redirect
+            res.redirect("/search-gs");
+        }
+    });
+});
+
+//search GS
+router.get("/search-gs", isDS, function(req,res){
+    User.find({"level":3}, function(err,allGs){
+        if(allGs.length > 0){                
+            res.render("users/search-gs",{gses : allGs});
+        }           
+        else{
+            res.render("landing/index");
+        } 
+    })
+});
+
+
+// profile update
+router.post("/profile",function(req,res){
+    User.updateOne({"email":global.userEmail}, { $set: {username:req.body.username, mobile: req.body.mobile} },function(err, user){
+        res.send("OK");
+    });
+});
+
+
+
+// profile
+router.get("/profile", isLoggedIn, function(req,res){
+    User.find({"email":global.userEmail}, function(err, foundUser){
+        if(err){
+            console.log(err);
+        }else{
+            res.render("profile", {UserProfile: foundUser});
+        }
+    });
+});
+
+// change password
+router.post("/change-password", isLoggedIn, function(req,res){
+    User.find({"email":global.userEmail}, function(err, foundUser){
+        if(err){
+            res.send(err);
+        }else{
+            if(foundUser.length > 0){
+                password(req.body.opassword).verifyAgainst(foundUser[0].password, function(error, verified) {
+                    if(error){
+                        res.send(error);
+                    }
+                    if(!verified){
+                        res.send("Wrong Old Password!");
+                    } 
+                    else {
+                        if(req.body.password == req.body.cpassword){
+                            password(req.body.password).hash(function(error, hash) {
+                                User.updateOne({"email":global.userEmail}, { $set: {password: hash} },function(err, user){
+                                    res.send("OK");
+                                });
+                            });
+                        }
+                        else{
+                            res.send("New Passwords do not match!");
+                        }
+                    }
+                });
+            }else{
+                res.send("User does not exist!");
+            }
+        }
+    });
+});
+
+
+// change password route
+router.get("/change-password", isLoggedIn, function(req,res){
+    res.render("change-password");
+});
+
 
 // root route
 router.get("/",function(req,res){
     res.render("login");
 });
 
-// change password
+//landing route
+router.get("/landing", isLoggedIn, function(req,res){
+    res.render("landing/index");
+});
+
+
+
+// forgot password
 router.post("/reset-password",function(req,res){
     User.find({"email":global.userEmail}, function(err, foundUser){
         if(err){
@@ -123,12 +245,12 @@ router.post("/forgot",function(req,res){
 });
 
 //activate route
-router.get("/activate",function(req,res){
+router.get("/activate", function(req,res){
     res.render("activation");
 });
 
 // handle sign up logic
-router.put("/activate",function(req,res){
+router.put("/activate", function(req,res){
     User.find({"email":global.userEmail}, function(err, foundUser){
         if(err){
             res.send(err);
@@ -145,14 +267,13 @@ router.put("/activate",function(req,res){
 
 });
 
-//register route
-router.get("/register",function(req,res){
-    res.render("register");
+//register gs route
+router.get("/register-gs", isDS, function(req,res){
+    res.render("users/register-gs");
 });
 
-
 // handle sign up logic
-router.post("/register",function(req,res){
+router.post("/register-gs", isDS, function(req,res){
     User.find({"email":req.body.email}, function(err, foundUser){
         if(err){
             res.send(err);
@@ -168,7 +289,60 @@ router.post("/register",function(req,res){
                     var code = Math.floor(100000 + Math.random() * 900000);
 
                     //register
-                    var newUser = new User({username:req.body.username, designation:req.body.designation, email:req.body.email, password: hash, code:code, level:1, status:0});
+                    var newUser = new User({username:req.body.username, division: req.body.division, designation:req.body.designation, mobile: req.body.mobile, email:req.body.email, password: hash, code:code, level:3, status:0});
+                    User.create(newUser, function(err,user){
+                        if(err){
+                            res.send(err);
+                        }else{
+                            
+                            global.userEmail = req.body.email;
+
+                            //send verification email
+                            var mailOptions = {
+                                from: 'charangan.18@cse.mrt.ac.lk',
+                                to: req.body.email,
+                                subject: 'Account Activation',
+                                html: '<p class="text-center">Your activation code is ' + code + '.</p>'
+                            };
+                                                
+                            transporter.sendMail(mailOptions, function(error, info){
+                                if (error) {
+                                    res.send(error);
+                                } else {
+                                    res.send("/activate");                                    
+                                }
+                            });           
+                        }        
+                    });
+                });
+            }
+        }
+    });
+});
+
+//register clerk route
+router.get("/register-clerk", isGS, function(req,res){
+    res.render("users/register-clerk");
+});
+
+// handle sign up logic
+router.post("/register-clerk", isGS, function(req,res){
+    User.find({"email":req.body.email}, function(err, foundUser){
+        if(err){
+            res.send(err);
+        }else{
+            if(foundUser.length > 0){
+                res.send("Email already Exists!");
+            }
+            else{
+                password(req.body.password).hash(function(error, hash) {
+                    userEmail = req.session;
+
+                    //code
+                    var code = Math.floor(100000 + Math.random() * 900000);
+
+                    //register
+                    var newUser = new User({username:req.body.username, division: req.body.division, designation:req.body.designation, mobile: req.body.mobile, email:req.body.email, password: hash, code:code, level:2, status:0});
                     User.create(newUser, function(err,user){
                         if(err){
                             res.send(err);
@@ -206,8 +380,11 @@ router.get("/login",function(req,res){
 
 // handling login logic
 router.post("/login", function(req,res){
-    userEmail = req.session;
+    userEmail = req.session;    
     user = req.session;
+    level = req.session;
+    division = req.session;
+
     User.find({"email": req.body.email}, function(err, foundUser){   
         if(foundUser.length >0){
             password(req.body.password).verifyAgainst(foundUser[0].password, function(error, verified) {
@@ -221,7 +398,9 @@ router.post("/login", function(req,res){
                     global.userEmail = req.body.email;   
                     if(foundUser[0].status == 1){
                         global.sess = true;
-                        global.user = foundUser;                                           
+                        global.user = foundUser; 
+                        global.level = foundUser[0].level;  
+                        global.division = foundUser[0].division;                                        
     
                         //return to previous page after authenticated
                         if(req.session.returnTo){
@@ -243,7 +422,7 @@ router.post("/login", function(req,res){
 });
 
 // logout route
-router.get("/logout",function(req,res){
+router.get("/logout",isLoggedIn, function(req,res){
     global.sess = false;
     global.userEmail = "";
     req.logOut();
@@ -254,6 +433,74 @@ router.get("/logout",function(req,res){
 function isLoggedIn(req,res,next){
     if(global.sess == true){
         return next();
+    }
+    else{
+        req.session.returnTo = req.originalUrl; 
+        res.redirect("/login");
+    }
+}
+
+
+//check DS
+function isDS(req,res,next){
+    if(global.sess == true){
+        if(global.level == 4){
+            return next();
+        }
+        else{
+            res.redirect("/landing");
+        }
+    }
+    else{
+        req.session.returnTo = req.originalUrl; 
+        res.redirect("/login");
+    }    
+}
+
+//check GS
+function isGS(req,res,next){
+    if(global.sess == true){
+        if(global.level == 3){
+            return next();
+        }
+        else{
+            res.redirect("/landing");
+        }
+    }
+    else{
+        req.session.returnTo = req.originalUrl; 
+        res.redirect("/login");
+    }
+}
+
+//check own
+function isClerkOwn(req,res,next){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+    // find and update the correct family
+    User.findById(qdata.id, function(err,foundUser){
+        if(err){
+            console.log(err);
+        }else{
+            if(global.division == foundUser.division){
+                return next();
+            }
+            else{
+                res.redirect("/landing");
+            }
+        }
+    });
+}
+
+//check GS and Clerk
+function isGsDs(req,res,next){
+    if(global.sess == true){
+        if(global.level == 3 || global.level == 4){
+            return next();
+        }
+        else{
+            res.redirect("/landing");
+        }
     }
     else{
         req.session.returnTo = req.originalUrl; 

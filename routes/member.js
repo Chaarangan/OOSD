@@ -3,9 +3,10 @@ var express     = require("express"),
     Family  = require("../models/family"),
     Member     = require("../models/member"),
     url = require("url");
-    
 
-router.get("/add-member", function(req,res){
+
+//add member
+router.get("/add-member", isGsClerk, function(req,res){
     var q = url.parse(req.url, true);
     var qdata = q.query; 
     //find family by id
@@ -19,7 +20,7 @@ router.get("/add-member", function(req,res){
     
 });
 
-router.post("/add-member", function(req,res){
+router.post("/add-member", isGsClerk, function(req,res){
     var q = url.parse(req.url, true);
     var qdata = q.query;
     //lookup family using id
@@ -28,7 +29,8 @@ router.post("/add-member", function(req,res){
             res.send(err);
         }else{
             //create new member
-            Member.create(req.body.member,function(err,member){
+            var newMember = {relation: req.body.relation, fname:req.body.fname, lname:req.body.lname, dob: req.body.dob, nic: req.body.nic, email:req.body.email, mobile:req.body.mobile, religion:req.body.religion, ethnic: req.body.ethnic, job:req.body.job, monthlyIncome: req.body.monthlyIncome, familyID:qdata.id, division:global.division};
+            Member.create(newMember,function(err,member){
                 if(err){
                     res.send(err);
                 }else{
@@ -48,98 +50,154 @@ router.post("/add-member", function(req,res){
 });
 
 
-// edit member route
-router.get("/family/:id/member/:member_id/edit",checkMemberOwnership,function(req,res){
-    Member.findById(req.params.member_id,function(err,foundmember){
+//search member
+router.get("/search-member", isLoggedIn, function(req,res){
+    Member.find({},function(err,allMember){
         if(err){
-            res.redirect("back");
+            res.redirect("/search-member");
         }else{
-            res.render("member/edit",{family_id:req.params.id,member:foundmember}) 
-        }
-    });
-});
-// update member route
-router.put("/family/:id/member/:member_id",checkMemberOwnership,function(req,res){
-    // find and update the correct member
-    Member.findByIdAndUpdate(req.params.member_id,req.body.member,function(err,updatedmember){
-        if(err){
-            res.redirect("back");
-        }else{
-            res.redirect("/family/" + req.params.id);
-        }
-    });
-});
-// delete member route
-router.delete("/family/:id/member/:member_id",checkMemberOwnership,function(req,res){
-    Member.findByIdAndRemove(req.params.member_id,function(err){
-        if(err){
-            res.redirect("back");
-        }else{
-            //redirect
-            res.redirect("/family/" + req.params.id);
-        }
-    });
-});
-
-
-function checkMemberOwnership(req,res,next){
-    if(req.isAuthenticated()){
-        //otherwise redirect
-        Member.findById(req.params.member_id,function(err,foundmember){
-            if(err){
-                req.flash("error","something went wrong");
-                res.redirect("back");
-            }else{
-                 //does user own the member
-                 if(foundmember.author.id.equals(req.user._id)){
-                    next();
-                 }else{
-                    req.flash("error","You don't have permission to do that");
-                     res.redirect("back")
-                 }
-                
-            }
-        });
-    }else{
-        req.flash("error","You need to be login first");
-       res.redirect("back"); 
-    }
-}
-
-// query routes
-router.get("/members/queries",function(req,res){
-    
-    Member.find({},function(err,allMembers){
-        if(err){
-            console.log(err);
-        }else{
-            res.render("member/index",{members:allMembers});
+            res.render("member/search-member",{members:allMember});
         }
     })
 });
 
-router.post("/members/queries",isLoggedIn,function(req,res){
-    var name = req.body.name;
-    var mon_income = req.params.mon_income;
-    
-    Member.find({"mon_income": mon_income},function(err,allMembers){
-            if(err){
-                console.log(err);
-            }else{
-                res.render("member/index",{members:allMembers});
-            }
-        })
+// edit member route
+router.get("/edit-member", isGsClerk, isMemberOwn,  function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+
+    Member.findById(qdata.id,function(err,foundMember){
+        Family.findById(foundMember.familyID,function(err,foundfamily){
+            res.render("member/edit-member",{member:foundMember, family: foundfamily});
+        });
+    });
+});
+
+// update member
+router.post("/edit-member", isGsClerk, isMemberOwn, function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+    // find and update the correct member
+    Member.findByIdAndUpdate(qdata.id, req.body.member,function(err,updatedmember){
+        if(err){
+            res.send(err);
+        }else{
+            res.send("/show-family?id=" + qdata.fid);
+        }
+    });
 });
 
 
-function isLoggedIn(req,res,next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    req.flash("error","You need to be login first");
-    res.redirect("/login")
+// delete route
+router.get("/delete-member", isGS, isMemberOwn, function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+
+    //destroy family
+    Member.findByIdAndRemove(qdata.id, function(err){
+        if(err){
+            console.log(err);
+        }else{
+            //redirect
+            res.redirect("/show-family?id=" + qdata.fid);
+        }
+    });
+});
+
+
+function checkGn(req,res,next){
+    //otherwise redirect
+   Family.findById(req.params.id,function(err,foundFamily){
+       if(err){
+           res.send(err);
+       }else{
+           //does user own the family
+           if(foundFamily.gs == global.userEmail){
+               return next();
+           }else{
+               res.send("/search-family");
+           }
+       }
+   });
 }
 
 
+//check loggedin
+function isLoggedIn(req,res,next){
+   if(global.sess == true){
+       return next();
+   }
+   else{
+       req.session.returnTo = req.originalUrl; 
+       res.redirect("/login");
+   }
+}
+
+//check DS
+function isDS(req,res,next){
+    if(global.sess == true){
+        if(global.level == 4){
+            return next();
+        }
+        else{
+            res.redirect("/landing");
+        }
+    }
+    else{
+        req.session.returnTo = req.originalUrl; 
+        res.redirect("/login");
+    }    
+}
+
+//check GS
+function isGS(req,res,next){
+    if(global.sess == true){
+        if(global.level == 3){
+            return next();
+        }
+        else{
+            res.redirect("/landing");
+        }
+    }
+    else{
+        req.session.returnTo = req.originalUrl; 
+        res.redirect("/login");
+    }
+}
+
+//check GS and Clerk
+function isGsClerk(req,res,next){
+    if(global.sess == true){
+        if(global.level == 3 || global.level == 2){
+            return next();
+        }
+        else{
+            res.redirect("/landing");
+        }
+    }
+    else{
+        req.session.returnTo = req.originalUrl; 
+        res.redirect("/login");
+    }
+}
+
+//check own
+function isMemberOwn(req,res,next){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+    // find and update the correct family
+    Member.findById(qdata.id, function(err,foundMember){
+        if(err){
+            console.log(err);
+        }else{
+            if(global.division == foundMember.division){
+                return next();
+            }
+            else{
+                res.redirect("/landing");
+            }
+        }
+    });
+}
 
 module.exports = router;

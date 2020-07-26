@@ -1,18 +1,19 @@
 var mongoose = require("mongoose");
 
 var memberSchema = mongoose.Schema({
-    relation:String,
+    relation:Number,
     fname:String,
     lname: String,
     dob:String,
     nic:String,
     email:String,
     mobile:String,
-    religion:String,
-    ethnic:String,
+    religion:Number,
+    ethnic:Number,
     job:String,
-    monthlyIncome:String,    
-    gs:String
+    monthlyIncome:String,  
+    familyID:String,  
+    division:Number
 });
 
 module.exports = mongoose.model("Member",memberSchema);

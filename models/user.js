@@ -3,7 +3,9 @@ const { stringify } = require("querystring");
 
 var UserSchema = new mongoose.Schema({
     username:String,
+    division: Number,
     designation:String,
+    mobile:String,
     email:String,
     password:String,
     code: Number,

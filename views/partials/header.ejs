@@ -47,7 +47,7 @@
       <% if(global.sess == true){ %>
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="/">
+        <a class="nav-link" href="/landing">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -69,17 +69,61 @@
         <div id="family" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Manage Family:</h6>
-            <a class="collapse-item" href="/add-family">Add Family</a>
+            <% if(global.level == 3 || global.level == 2){ %>
+              <a class="collapse-item" href="/add-family">Add Family</a>
+            <% } %>
             <a class="collapse-item" href="/search-family">Search Family</a>
-  
-  
-            <div class="collapse-divider"></div>
-            <h6 class="collapse-header">Manage Members:</h6>
-            <a class="collapse-item" href="/add-member">Add Member</a>
+
+            <h6 class="collapse-header">Manage Member:</h6>
             <a class="collapse-item" href="/search-member">Search Member</a>
           </div>
         </div>
       </li>
+        <% if(global.level == 4){ %>
+          <!-- Nav Item - Pages Collapse Menu -->
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gs" aria-expanded="true" aria-controls="collapsePages">
+              <i class="fas fa-fw fa-folder"></i>
+              <span>GS</span>
+            </a>
+            <div id="gs" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+              <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Manage GS:</h6>
+                  <a class="collapse-item" href="/register-gs">Add GS</a>
+                <a class="collapse-item" href="/search-gs">Search GS</a>
+              </div>
+            </div>
+          </li>
+          <!-- Nav Item - Pages Collapse Menu -->
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#clerk" aria-expanded="true" aria-controls="collapsePages">
+              <i class="fas fa-fw fa-folder"></i>
+              <span>Clerk</span>
+            </a>
+            <div id="clerk" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+              <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Manage Clerk:</h6>
+                <a class="collapse-item" href="/search-clerk">Search Clerk</a>
+              </div>
+            </div>
+          </li>
+        <% } %>
+        <% if(global.level == 3){ %>
+          <!-- Nav Item - Pages Collapse Menu -->
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#clerk" aria-expanded="true" aria-controls="collapsePages">
+              <i class="fas fa-fw fa-folder"></i>
+              <span>Clerk</span>
+            </a>
+            <div id="clerk" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+              <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Manage Clerk:</h6>
+                  <a class="collapse-item" href="/register-clerk">Add Clerk</a>
+                <a class="collapse-item" href="/search-clerk">Search Clerk</a>
+              </div>
+            </div>
+          </li>
+        <% } %>
       <% } %>
        <!-- Divider -->
        <hr class="sidebar-divider d-none d-md-block">
@@ -98,6 +142,7 @@
             <h6 class="collapse-header">Manage User:</h6>
             <% if(global.sess == true){ %>
               <a class="collapse-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+              <a class="collapse-item" href="/profile">Profile</a>
               <a class="collapse-item" href="/change-password">Change Password</a>
             <% }else{ %>
               <a class="collapse-item" href="/login">Login</a>
@@ -284,11 +329,11 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="/profile">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="/change-password">
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                   Change Password
                 </a>

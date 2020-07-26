@@ -8,8 +8,7 @@ var express         = require("express"),
     methodOverride  = require("method-override"),
     Family      = require("./models/family"),
     Member         = require("./models/member"),
-    User            = require("./models/user"),
-    seedDB          = require("./seeds")
+    User            = require("./models/user");
 
 // requiring routes
 var memberRoutes       = require("./routes/member"),
@@ -23,7 +22,6 @@ app.set("view engine","ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
-seedDB();
 
 //PASSPORT CONFIGURATION
 app.use(require("express-session")({
