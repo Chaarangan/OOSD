@@ -27,7 +27,7 @@
                 <tbody>
                     <% members.forEach(function(member) { %>
                         <tr>
-                            <td class="text-center"><a type="button" href="/show-family?id=<%= member.familyID %>" class="btn btn-primary btn-sm">Show</a></td>
+                            <td class="text-center"><a type="button" href="/show-family?id=<%= member.familyID %>#<%= member.id %>" class="btn btn-primary btn-sm">Show</a></td>
                             <td class="text-center"><%= member.fname %></td>
                             <td class="text-center"><%= member.lname %></td>
                             <td class="text-center"><%= member.nic %></td>

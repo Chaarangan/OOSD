@@ -2,7 +2,63 @@ var express     = require("express"),
     router      = express.Router(),
     Family  = require("../models/family"),
     Member     = require("../models/member"),
+    dateFormat = require('dateformat'),
+    now = new Date(),
     url = require("url");
+
+
+//html to pdf
+let pdf = require("html-pdf");
+let path = require("path");
+let ejs = require("ejs");
+
+
+//individual report
+router.get("/individual-report", (req, res) => {  
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+
+    //find family
+    Member.findById(qdata.id, function(err,foundMembers){
+        if(err){
+            console.log(err);
+        }else{ 
+            Family.findById(foundMembers.familyID, function(err, foundFamily){ 
+                if(err){
+                    console.log(err);
+                }else{   
+                    res.render("member/individual-report", {family:foundFamily, member: foundMembers}, (err, data) => {
+                        if (err) {
+                            console.log(err)   
+                        } else {
+                            let options = {
+                                "height": "11.25in",
+                                "width": "8.5in",
+                                "header": {
+                                    "height": "20mm"
+                                },
+                                "footer": {
+                                    "height": "20mm",
+                                },
+                            };
+                            pdf.create(data, options).toStream((err, stream) => {
+                                if (err) {                            
+                                    console.error(err);
+                                    res.status(500);
+                                    res.end(JSON.stringify(err));                            
+                                    return;
+                                }                            
+                                res.setHeader('Content-Type', 'application/pdf');
+                                res.setHeader('Content-Disposition', 'attachment; filename=full-report-' + foundFamily.fname +Date.now() +'.pdf;');                            
+                                stream.pipe(res);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
 
 
 //add member

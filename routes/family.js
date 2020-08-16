@@ -4,8 +4,103 @@ var express     = require("express"),
     router      = express.Router(),
     Family  = require("../models/family"),
     Member     = require("../models/member"),
+    dateFormat = require('dateformat'),
+    now = new Date(),
     url = require("url");
 
+//html to pdf
+let pdf = require("html-pdf");
+let path = require("path");
+let ejs = require("ejs");
+
+
+//full report
+router.get("/full-report", (req, res) => {  
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+
+    //find family
+    Family.findById(qdata.id, function(err,foundFamily){
+        if(err){
+            console.log(err);
+        }else{ 
+            Member.find({"familyID": qdata.id}, function(err, foundMembers){ 
+                if(err){
+                    console.log(err);
+                }else{   
+                    res.render("family/full-report", {family:foundFamily, members: foundMembers}, (err, data) => {
+                        if (err) {
+                            res.send(err);      
+                        } else {
+                            let options = {
+                                "height": "11.25in",
+                                "width": "8.5in",
+                                "header": {
+                                    "height": "20mm"
+                                },
+                                "footer": {
+                                    "height": "20mm",
+                                },
+                            };
+                            pdf.create(data, options).toStream((err, stream) => {
+                                if (err) {                            
+                                    console.error(err);
+                                    res.status(500);
+                                    res.end(JSON.stringify(err));                            
+                                    return;
+                                }                            
+                                res.setHeader('Content-Type', 'application/pdf');
+                                res.setHeader('Content-Disposition', 'attachment; filename=full-report-' + foundFamily.fname +Date.now() +'.pdf;');                            
+                                stream.pipe(res);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+
+//individual report
+router.get("/family-report", (req, res) => {  
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+
+    //find family
+    Family.findById(qdata.id, function(err,foundFamily){
+        if(err){
+            console.log(err);
+        }else{ 
+            res.render("family/family-report", {family:foundFamily}, (err, data) => {
+                if (err) {
+                    res.send(err);      
+                } else {
+                    let options = {
+                        "height": "11.25in",
+                        "width": "8.5in",
+                        "header": {
+                            "height": "20mm"
+                        },
+                        "footer": {
+                            "height": "20mm",
+                        },
+                    };
+                    pdf.create(data, options).toStream((err, stream) => {
+                        if (err) {                            
+                            console.error(err);
+                            res.status(500);
+                            res.end(JSON.stringify(err));                            
+                            return;
+                        }                            
+                        res.setHeader('Content-Type', 'application/pdf');
+                        res.setHeader('Content-Disposition', 'attachment; filename=full-report-' + foundFamily.fname +Date.now() +'.pdf;');                            
+                        stream.pipe(res);
+                    });
+                }
+            });
+        }
+    });
+});
 
 //add famlily
 router.get("/add-family", isGsClerk, function(req,res){
