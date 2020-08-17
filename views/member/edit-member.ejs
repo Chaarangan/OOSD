@@ -116,6 +116,14 @@
                     <div class="form-group">
                         <input type="text" class="form-control" value="<%= member.monthlyIncome %>" name="member[monthlyIncome]" placeholder="Enter Monthly Income">
                         <div class="validate"></div>
+                    </div>
+                    <div class="form-group">
+                        <textarea type="text"  class="form-control" name="member[temporaryAddress]" placeholder="Enter Temporary Address"><%= member.temporaryAddress %></textarea>
+                        <div class="validate"></div>
+                    </div>
+                    <div class="form-group">
+                        <textarea type="text"  class="form-control" name="member[permanentAddress]" placeholder="Enter Permanent Address"><%= member.permanentAddress %></textarea>
+                        <div class="validate"></div>
                     </div>                   
                 </div>
                 </div>

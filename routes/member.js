@@ -85,7 +85,7 @@ router.post("/add-member", isGsClerk, function(req,res){
             res.send(err);
         }else{
             //create new member
-            var newMember = {relation: req.body.relation, fname:req.body.fname, lname:req.body.lname, dob: req.body.dob, nic: req.body.nic, email:req.body.email, mobile:req.body.mobile, religion:req.body.religion, ethnic: req.body.ethnic, job:req.body.job, monthlyIncome: req.body.monthlyIncome, familyID:qdata.id, division:global.division};
+            var newMember = {relation: req.body.relation, fname:req.body.fname, lname:req.body.lname, dob: req.body.dob, nic: req.body.nic, email:req.body.email, mobile:req.body.mobile, religion:req.body.religion, ethnic: req.body.ethnic, job:req.body.job, monthlyIncome: req.body.monthlyIncome, temporaryAddress: req.body.temporaryAddress, permanentAddress: req.body.permanentAddress, familyID:qdata.id, division:global.division};
             Member.create(newMember,function(err,member){
                 if(err){
                     res.send(err);

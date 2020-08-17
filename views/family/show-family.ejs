@@ -307,8 +307,8 @@
 
     <!--Member Start-->
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4" id="<%= member.id %>">
-      <h1 class="h3 mb-0 text-gray-800">
+    <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-3" id="<%= member.id %>">
+      <h1 class="h3 mb-0 text-primary">
           <% if(member.relation == 1){ %>
               Wife :
           <% } else if(member.relation == 2) { %>
@@ -457,7 +457,7 @@
                     Temporary Address
                 </div>
                 <div class="col-lg-6">
-                    <%= family.temporaryAddress %>
+                    <%= member.temporaryAddress %>
                 </div>
             </div>
             <div class="row mb-3">
@@ -465,7 +465,7 @@
                     Permanent Address
                 </div>
                 <div class="col-lg-6">
-                    <%= family.permanentAddress %>
+                    <%= member.permanentAddress %>
                 </div>
             </div>
             <div class="row mb-3">
@@ -566,5 +566,8 @@
       </div>
     </div>
   </div>
+
+
+ 
 
 <%- include('../partials/footer'); %>

@@ -12,6 +12,8 @@ var memberSchema = mongoose.Schema({
     ethnic:Number,
     job:String,
     monthlyIncome:String,  
+    temporaryAddress:String,
+    permanentAddress:String,
     familyID:String,  
     division:Number
 });
