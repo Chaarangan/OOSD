@@ -23,6 +23,12 @@ let transporter = nodemailer.createTransport(smtpTransport({
       }
 }));
 
+//forbidde
+router.get("/forbidden", function(req,res){
+    res.render("forbidden");
+});
+
+
 // delete gs
 router.get("/delete-clerk", isClerkOwn, function(req,res){
     var q = url.parse(req.url, true);
@@ -448,7 +454,7 @@ function isDS(req,res,next){
             return next();
         }
         else{
-            res.redirect("/landing");
+            res.redirect("/forbidden");
         }
     }
     else{
@@ -464,7 +470,7 @@ function isGS(req,res,next){
             return next();
         }
         else{
-            res.redirect("/landing");
+            res.redirect("/forbidden");
         }
     }
     else{
@@ -486,7 +492,7 @@ function isClerkOwn(req,res,next){
                 return next();
             }
             else{
-                res.redirect("/landing");
+                res.redirect("/forbidden");
             }
         }
     });
@@ -499,7 +505,7 @@ function isGsDs(req,res,next){
             return next();
         }
         else{
-            res.redirect("/landing");
+            res.redirect("/forbidden");
         }
     }
     else{

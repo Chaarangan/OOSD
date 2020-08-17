@@ -241,7 +241,7 @@ function isDS(req,res,next){
             return next();
         }
         else{
-            res.redirect("/landing");
+            res.redirect("/forbidden");
         }
     }
     else{
@@ -257,7 +257,7 @@ function isGS(req,res,next){
             return next();
         }
         else{
-            res.redirect("/landing");
+            res.redirect("/forbidden");
         }
     }
     else{
@@ -273,7 +273,7 @@ function isGsClerk(req,res,next){
             return next();
         }
         else{
-            res.redirect("/landing");
+            res.redirect("/forbidden");
         }
     }
     else{
@@ -295,7 +295,7 @@ function isFamilyOwn(req,res,next){
                 return next();
             }
             else{
-                res.redirect("/landing");
+                res.redirect("/forbidden");
             }
         }
     });

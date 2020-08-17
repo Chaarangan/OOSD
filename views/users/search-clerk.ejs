@@ -29,11 +29,11 @@
                         <tr>
                           <% if(global.division == clerk.division && global.level == 3){ %>
                             <td class="text-center">
-                                <a type="button" href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#clerk<%= clerk.id %>">Delete</a>
+                                <button type="button" href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#clerk<%= clerk.id %>">Delete</button>
                             </td>
                           <% } else {%>
                             <td class="text-center">
-                              <a type="button" href="#" class="btn btn-primary btn-sm"></a>
+                              No Access
                             </td>
                           <% } %>
                             <td class="text-center"><%= clerk.username %></td>
