@@ -1,7 +1,9 @@
 var express     = require("express"),
     router      = express.Router(),
     password = require('password-hash-and-salt'),
-    User        = require("../models/user")
+    User        = require("../models/user"),
+    Family  = require("../models/family"),
+    Member     = require("../models/member"),
     session = require('express-session');
 
 
@@ -19,6 +21,7 @@ global.sess;
 global.user;
 global.level;
 global.division;
+
 
 //mailer
 const nodemailer = require('nodemailer');  
@@ -163,7 +166,19 @@ router.get("/",function(req,res){
 
 //landing route
 router.get("/landing", isLoggedIn, function(req,res){
-    res.render("landing/index");
+    Family.find({},function(err,allFamily){
+        if(err){
+            console.log(err);
+        }else{
+            Member.find({},function(err,allMember){
+                if(err){
+                    console.log(err);
+                }else{
+                    res.render("landing/index", {families : allFamily, members: allMember});
+                }
+            });  
+        }
+    });    
 });
 
 

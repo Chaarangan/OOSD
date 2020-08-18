@@ -4,6 +4,7 @@ var familySchema = new mongoose.Schema({
     fname:String,
     lname: String,
     dob:String,
+    gender:Number,
     nic:String,
     email:String,
     mobile:String,

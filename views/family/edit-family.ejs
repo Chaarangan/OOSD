@@ -21,15 +21,15 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" name="family[fname]" value="<%= family.fname %>" placeholder="Enter Family First Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                        <input type="text" class="form-control" autocomplete="off" name="family[fname]" value="<%= family.fname %>" placeholder="Enter Family First Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="family[lname]" value="<%= family.lname %>" placeholder="Enter Family Last Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                        <input type="text" class="form-control" autocomplete="off" name="family[lname]" value="<%= family.lname %>" placeholder="Enter Family Last Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="family[dob]" value="<%= family.dob %>" id="datepicker" placeholder="Enter Date of Birth" data-rule="required" data-msg="Please enter date of birth">
+                        <input type="text" class="form-control" autocomplete="off" name="family[dob]" value="<%= family.dob %>" id="datepicker" placeholder="Enter Date of Birth" data-rule="required" data-msg="Please enter date of birth">
                         <div class="validate"></div>
                         <script>
                             $('#datepicker').datepicker({
@@ -38,7 +38,20 @@
                         </script> 
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="family[nic]" value="<%= family.nic %>" placeholder="Enter NIC Number">
+                        <select name="family[gender]" class="form-control custom-select"  required>
+                            <option value="" disabled selected>Choose Gender</option>
+                            <% if(family.gender == 1){ 
+                                var i = 'selected';
+                            }else if(family.gender == 2){ 
+                                var j = 'selected';
+                            } %>
+                            <option value="1" <%= i %>>Male</option>
+                            <option value="2" <%= j %>>Female</option>
+                        </select>
+                        <div class="validate"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" autocomplete="off" name="family[nic]" value="<%= family.nic %>" placeholder="Enter NIC Number">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
@@ -94,19 +107,19 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" value="<%= family.job %>" name="family[job]" placeholder="Enter your Job">
+                        <input type="text" class="form-control" value="<%= family.job %>" autocomplete="off" name="family[job]" placeholder="Enter your Job">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" value="<%= family.monthlyIncome %>" name="family[monthlyIncome]" placeholder="Enter Monthly Income">
+                        <input type="text" class="form-control" value="<%= family.monthlyIncome %>" autocomplete="off" name="family[monthlyIncome]" placeholder="Enter Monthly Income">
                         <div class="validate"></div>
                     </div>                
                     <div class="form-group">
-                        <textarea type="text"  class="form-control" name="family[temporaryAddress]" placeholder="Enter Temporary Address"><%= family.temporaryAddress %></textarea>
+                        <textarea type="text"  class="form-control" name="family[temporaryAddress]" autocomplete="off" placeholder="Enter Temporary Address"><%= family.temporaryAddress %></textarea>
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <textarea type="text"  class="form-control" name="family[permanentAddress]" placeholder="Enter Permanent Address"><%= family.permanentAddress %></textarea>
+                        <textarea type="text"  class="form-control" name="family[permanentAddress]" autocomplete="off" placeholder="Enter Permanent Address"><%= family.permanentAddress %></textarea>
                         <div class="validate"></div>
                     </div>                   
                 </div>
@@ -124,11 +137,11 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <input type="email" class="form-control" name="family[email]" placeholder="Enter Email" value="<%= family.email %>">
+                        <input type="email" class="form-control" name="family[email]" autocomplete="off" placeholder="Enter Email" value="<%= family.email %>">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="family[mobile]" placeholder="Enter Mobile Number" value="<%= family.mobile %>">
+                        <input type="text" class="form-control" name="family[mobile]" autocomplete="off" placeholder="Enter Mobile Number" value="<%= family.mobile %>">
                         <div class="validate"></div>
                     </div>
                 </div>

@@ -150,6 +150,18 @@
                 </div>
             </div>
             <div class="row mb-3">
+              <div class="col-lg-6">
+                  Gender
+              </div>
+              <div class="col-lg-6">
+                <% if(family.gender == 1){ %>
+                  Male
+              <% }else if(family.gender == 2){ %>
+                  Female
+              <% } %>
+              </div>
+          </div>
+            <div class="row mb-3">
                 <div class="col-lg-6">
                     NIC Number
                 </div>
@@ -372,6 +384,18 @@
                     <%= member.dob %>
                 </div>
             </div>
+            <div class="row mb-3">
+              <div class="col-lg-6">
+                  Gender
+              </div>
+              <div class="col-lg-6">
+                <% if(member.gender == 1){ %>
+                  Male
+              <% }else if(member.gender == 2){ %>
+                  Female
+              <% } %>
+              </div>
+          </div>
             <div class="row mb-3">
                 <div class="col-lg-6">
                     NIC Number

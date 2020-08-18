@@ -111,7 +111,7 @@ router.get("/add-family", isGsClerk, function(req,res){
 //add family post
 router.post("/add-family",isGsClerk, function(req,res){
     // get data from form and add to FAMILY array
-    var newFamily = {fname:req.body.fname, lname:req.body.lname, dob: req.body.dob, nic: req.body.nic, email:req.body.email, mobile:req.body.mobile, religion:req.body.religion, ethnic: req.body.ethnic, job:req.body.job, monthlyIncome: req.body.monthlyIncome, temporaryAddress: req.body.temporaryAddress, permanentAddress: req.body.permanentAddress, gnDivision:global.division, dsDivision: "Thunukkai", division:global.division};
+    var newFamily = {fname:req.body.fname, lname:req.body.lname, dob: req.body.dob, nic: req.body.nic, gender:req.body.gender, email:req.body.email, mobile:req.body.mobile, religion:req.body.religion, ethnic: req.body.ethnic, job:req.body.job, monthlyIncome: req.body.monthlyIncome, temporaryAddress: req.body.temporaryAddress, permanentAddress: req.body.permanentAddress, gnDivision:global.division, dsDivision: "Thunukkai", division:global.division};
     
     //create a new FAMILY and save to db
     Family.create(newFamily,function(err,newlyCreated){

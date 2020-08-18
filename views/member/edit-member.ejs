@@ -37,15 +37,15 @@
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="member[fname]" value="<%= member.fname %>" placeholder="Enter First Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                        <input type="text" class="form-control" autocomplete="off" name="member[fname]" value="<%= member.fname %>" placeholder="Enter First Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="member[lname]" value="<%= member.lname %>" placeholder="Enter Last Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+                        <input type="text" class="form-control" autocomplete="off" name="member[lname]" value="<%= member.lname %>" placeholder="Enter Last Name" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="member[dob]" value="<%= member.dob %>" id="datepicker" placeholder="Enter Date of Birth" data-rule="required" data-msg="Please enter date of birth">
+                        <input type="text" class="form-control" autocomplete="off" name="member[dob]" value="<%= member.dob %>" id="datepicker" placeholder="Enter Date of Birth" data-rule="required" data-msg="Please enter date of birth">
                         <div class="validate"></div>
                         <script>
                             $('#datepicker').datepicker({
@@ -54,7 +54,20 @@
                         </script> 
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="member[nic]" value="<%= member.nic %>" placeholder="Enter NIC Number">
+                        <select name="member[gender]" class="form-control custom-select"  required>
+                            <option value="" disabled selected>Choose Gender</option>
+                            <% if(member.gender == 1){ 
+                                var l = 'selected';
+                            }else if(member.gender == 2){ 
+                                var m = 'selected';
+                            } %>
+                            <option value="1" <%= l %>>Male</option>
+                            <option value="2" <%= m %>>Female</option>
+                        </select>
+                        <div class="validate"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" autocomplete="off" name="member[nic]" value="<%= member.nic %>" placeholder="Enter NIC Number">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
@@ -110,19 +123,19 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" value="<%= member.job %>" name="member[job]" placeholder="Enter your Job">
+                        <input type="text" class="form-control" autocomplete="off" value="<%= member.job %>" name="member[job]" placeholder="Enter your Job">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" value="<%= member.monthlyIncome %>" name="member[monthlyIncome]" placeholder="Enter Monthly Income">
+                        <input type="text" class="form-control" autocomplete="off" value="<%= member.monthlyIncome %>" name="member[monthlyIncome]" placeholder="Enter Monthly Income">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <textarea type="text"  class="form-control" name="member[temporaryAddress]" placeholder="Enter Temporary Address"><%= member.temporaryAddress %></textarea>
+                        <textarea type="text"  class="form-control" autocomplete="off" name="member[temporaryAddress]" placeholder="Enter Temporary Address"><%= member.temporaryAddress %></textarea>
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <textarea type="text"  class="form-control" name="member[permanentAddress]" placeholder="Enter Permanent Address"><%= member.permanentAddress %></textarea>
+                        <textarea type="text"  class="form-control" autocomplete="off" name="member[permanentAddress]" placeholder="Enter Permanent Address"><%= member.permanentAddress %></textarea>
                         <div class="validate"></div>
                     </div>                   
                 </div>
@@ -140,11 +153,11 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <input type="email" class="form-control" name="member[email]" placeholder="Enter Email" value="<%= member.email %>">
+                        <input type="email" class="form-control" autocomplete="off" name="member[email]" placeholder="Enter Email" value="<%= member.email %>">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" name="member[mobile]" placeholder="Enter Mobile Number" value="<%= member.mobile %>">
+                        <input type="text" class="form-control" autocomplete="off" name="member[mobile]" placeholder="Enter Mobile Number" value="<%= member.mobile %>">
                         <div class="validate"></div>
                     </div>
                 </div>
