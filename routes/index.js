@@ -31,7 +31,7 @@ let transporter = nodemailer.createTransport(smtpTransport({
       host: 'smtp.gmail.com',
       auth: {
         user: 'testing.c98@gmail.com',
-        pass: 'Chanu21@'
+        pass: 'mathsstudy'
       }
 }));
 
