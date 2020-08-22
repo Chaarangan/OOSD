@@ -46,6 +46,6 @@ app.use(indexRoutes);
 app.use(memberRoutes);
 app.use(familyRoutes);
 
-app.listen(process.env.PORT, process.env.IP,function(){
+app.listen(process.env.PORT || 3000, process.env.IP,function(){
     console.log("Data Management server is started");
 });
