@@ -16,7 +16,7 @@ var memberRoutes       = require("./routes/member"),
     familyRoutes    = require("./routes/family"),
     indexRoutes         = require("./routes/index")
 
-mongoose.connect("mongodb://Chanu:Chanu21@@ds223609.mlab.com:23609/heroku_3m4s93j8",{useNewUrlParser: true, useUnifiedTopology: true , useFindAndModify: false });
+mongoose.connect("mongodb://ds223609.mlab.com:23609/heroku_3m4s93j8",{useNewUrlParser: true, useUnifiedTopology: true , useFindAndModify: false });
 
 app.use(bodyparser.urlencoded({extended: true}));
 app.set("view engine","ejs");
