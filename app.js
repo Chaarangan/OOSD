@@ -1,4 +1,5 @@
 var express         = require("express"),
+    forceSsl = require('force-ssl-heroku'),
     request         = require("request"),
     bodyparser      = require("body-parser"),
     mongoose        = require("mongoose"),
@@ -22,6 +23,7 @@ app.set("view engine","ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
 app.use(flash());
+app.use(forceSsl);
 
 //PASSPORT CONFIGURATION
 app.use(require("express-session")({
