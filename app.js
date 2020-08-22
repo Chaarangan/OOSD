@@ -1,5 +1,5 @@
 var express         = require("express"),
-    forceSsl = require('force-ssl-heroku'),
+    forceSsl        = require('force-ssl-heroku'),
     request         = require("request"),
     bodyparser      = require("body-parser"),
     mongoose        = require("mongoose"),
@@ -7,8 +7,8 @@ var express         = require("express"),
     app             = express(),
     passport        = require("passport"),
     methodOverride  = require("method-override"),
-    Family      = require("./models/family"),
-    Member         = require("./models/member"),
+    Family          = require("./models/family"),
+    Member          = require("./models/member"),
     User            = require("./models/user");
 
 // requiring routes
@@ -46,6 +46,6 @@ app.use(indexRoutes);
 app.use(memberRoutes);
 app.use(familyRoutes);
 
-app.listen(process.env.PORT || 3000, process.env.IP,function(){
+app.listen(process.env.PORT, process.env.IP,function(){
     console.log("Data Management server is started");
 });
