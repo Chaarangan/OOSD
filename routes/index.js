@@ -31,7 +31,7 @@ let transporter = nodemailer.createTransport(smtpTransport({
       host: 'smtp.gmail.com',
       auth: {
         user: 'testing.c98@gmail.com',
-        pass: 'Chanu21@'
+        pass: 'chanuTest2020'
       }
 }));
 
@@ -296,6 +296,61 @@ router.put("/activate", function(req,res){
     });
 
 });
+
+
+//register ds route
+router.get("/register-ds", function(req,res){
+    res.render("users/register-ds");
+});
+
+// handle sign up logic ds
+router.post("/register-ds", function(req,res){
+    User.find({"email":req.body.email}, function(err, foundUser){
+        if(err){
+            res.send(err);
+        }else{
+            if(foundUser.length > 0){
+                res.send("Email already Exists!");
+            }
+            else{
+                password(req.body.password).hash(function(error, hash) {
+                    userEmail = req.session;
+
+                    //code
+                    var code = Math.floor(100000 + Math.random() * 900000);
+
+                    //register
+                    var newUser = new User({username:req.body.username, division: '0', designation:req.body.designation, mobile: req.body.mobile, email:req.body.email, password: hash, code:code, level:4, status:0});
+                    User.create(newUser, function(err,user){
+                        if(err){
+                            res.send(err);
+                        }else{
+                            
+                            global.userEmail = req.body.email;
+
+                            //send verification email
+                            var mailOptions = {
+                                from: 'charangan.18@cse.mrt.ac.lk',
+                                to: req.body.email,
+                                subject: 'Account Activation',
+                                html: '<p class="text-center">Your activation code is ' + code + '.</p>'
+                            };
+                                                
+                            transporter.sendMail(mailOptions, function(error, info){
+                                if (error) {
+                                    res.send(error);
+                                } else {
+                                    res.send("/activate");                                    
+                                }
+                            });           
+                        }        
+                    });
+                });
+            }
+        }
+    });
+});
+
 
 //register gs route
 router.get("/register-gs", isDS, function(req,res){

@@ -13,7 +13,7 @@ var express         = require("express"),
 // requiring routes
 var memberRoutes       = require("./routes/member"),
     familyRoutes    = require("./routes/family"),
-    indexRoutes         = require("./routes/index")
+    indexRoutes         = require("./routes/index");
 
 mongoose.connect("mongodb://localhost/admin",{useNewUrlParser: true, useUnifiedTopology: true , useFindAndModify: false });
 
@@ -44,6 +44,6 @@ app.use(indexRoutes);
 app.use(memberRoutes);
 app.use(familyRoutes);
 
-app.listen(process.env.PORT || 3001, process.env.IP,function(){
-    console.log("SLIoT server is started");
+app.listen(process.env.PORT || 3000, process.env.IP,function(){
+    console.log("Data Management server is started");
 });
