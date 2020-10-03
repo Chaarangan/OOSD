@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>GN Division</title>
+  <title>DS Division</title>
 
   <!-- Custom fonts for this template-->
   <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -80,7 +80,7 @@
           </div>
         </div>
       </li>
-        <% if(global.level == 4){ %>
+        <% if(global.level == 4){ %>                    
           <!-- Nav Item - Pages Collapse Menu -->
           <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#gs" aria-expanded="true" aria-controls="collapsePages">
@@ -105,6 +105,20 @@
               <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Manage Clerk:</h6>
                 <a class="collapse-item" href="/search-clerk">Search Clerk</a>
+              </div>
+            </div>
+          </li>
+          <!-- Nav Item - Pages Collapse Menu -->
+          <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#common" aria-expanded="true" aria-controls="collapsePages">
+              <i class="fas fa-fw fa-folder"></i>
+              <span>Common</span>
+            </a>
+            <div id="common" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+              <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Common:</h6>
+                  <a class="collapse-item" href="/add-event">Add Event</a>
+                  <a class="collapse-item" href="/events">Events</a>
               </div>
             </div>
           </li>

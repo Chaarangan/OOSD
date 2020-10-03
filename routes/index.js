@@ -4,7 +4,9 @@ var express     = require("express"),
     User        = require("../models/user"),
     Family  = require("../models/family"),
     Member     = require("../models/member"),
-    session = require('express-session');
+    Event     = require("../models/event"),
+    session = require('express-session'),
+    url = require("url");
 
 
     var jsdom = require('jsdom');
@@ -22,7 +24,6 @@ global.user;
 global.level;
 global.division;
 
-
 //mailer
 const nodemailer = require('nodemailer');  
 var smtpTransport = require('nodemailer-smtp-transport'); 
@@ -38,6 +39,78 @@ let transporter = nodemailer.createTransport(smtpTransport({
 //forbidde
 router.get("/forbidden", function(req,res){
     res.render("forbidden");
+});
+
+//event route
+router.get("/events", function(req,res){
+    User.find({"email": global.userEmail}, function(err, foundUser){
+        if(err){
+            res.send(err);
+        }else{
+            if(foundUser.length > 0){  
+        
+                Event.find({"user" : foundUser[0]._id},function(err,allEvents){                    
+                    res.render("users/events", {allEvents : allEvents});
+                });
+            }
+            else{
+                res.redirect("/");
+            }
+        }
+    });
+});
+
+
+// delete gs
+router.get("/delete-event", function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+           
+    //destroy family
+    Event.findByIdAndRemove(qdata.id, function(err){
+        if(err){
+            console.log(err);
+        }else{
+            //redirect
+            res.redirect("/events");
+        }
+    });         
+});
+
+//add event ds route
+router.get("/add-event", function(req,res){
+    res.render("users/add-event");
+});
+
+
+// handle add event logic ds
+router.post("/add-event", function(req,res){    
+
+    User.find({},function(err,allUser){
+        if(err){
+            res.send(err);
+        }else{
+            if(allUser.length > 0){  
+                //observer                           
+                function notifyListners(allUser) {  
+                    allUser.forEach(function(user){ 
+                        var newEvent = new Event({title:req.body.title, type: req.body.type, date:req.body.date, time: req.body.time, place:req.body.place, requirements: req.body.requirement, user: user._id});
+                        Event.create(newEvent, function(err,event){
+                            if(err){
+                                res.send(err);
+                            }
+                        });
+                    });                                              
+                };                     
+                notifyListners(allUser);
+                res.send("OK");
+            }
+            else{
+                res.send("No users found!");
+            }
+        }
+    });
+    
 });
 
 

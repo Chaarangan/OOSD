@@ -90,13 +90,11 @@ router.post("/add-member", isGsClerk, function(req,res){
                 if(err){
                     res.send(err);
                 }else{
-                    //connect new member to family
-                    // add username and id to member
+                   
                     member.gs = global.userEmail;
                     // save member
-                    member.save();
-                    family.members.push(member);
-                    family.save();
+                    member.save(); 
+                
                     //redirect family show page
                     res.send("/show-family?id=" + qdata.id);
                 }

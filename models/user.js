@@ -11,7 +11,13 @@ var UserSchema = new mongoose.Schema({
     password:String,
     code: Number,
     status: Number,
-    level:Number
+    level:Number,
+    events: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:"Event" 
+        }
+    ]
 });
 
 module.exports = mongoose.model("User",UserSchema);

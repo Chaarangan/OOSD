@@ -10,12 +10,17 @@ var express         = require("express"),
     Member          = require("./models/member"),
     User            = require("./models/user");
 
+//config with error
+//mongoose.connect("mongodb://localhost/admin",{useNewUrlParser: true, useUnifiedTopology: true , useFindAndModify: false });
+const singleton = require("./config");
+singleton.init(true);
+
+
 // requiring routes
 var memberRoutes       = require("./routes/member"),
     familyRoutes    = require("./routes/family"),
     indexRoutes         = require("./routes/index");
 
-mongoose.connect("mongodb://localhost/admin",{useNewUrlParser: true, useUnifiedTopology: true , useFindAndModify: false });
 
 app.use(bodyparser.urlencoded({extended: true}));
 app.set("view engine","ejs");
@@ -40,9 +45,14 @@ app.use(function(req,res,next){
     next();
 });
 
+
 app.use(indexRoutes);
 app.use(memberRoutes);
 app.use(familyRoutes);
+
+//seeds
+var seedDB = require("./seeds");
+seedDB();
 
 app.listen(process.env.PORT || 3000, process.env.IP,function(){
     console.log("Data Management server is started");
