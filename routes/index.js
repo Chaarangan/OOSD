@@ -36,55 +36,10 @@ let transporter = nodemailer.createTransport(smtpTransport({
       }
 }));
 
-//forbidde
-router.get("/forbidden", function(req,res){
-    res.render("forbidden");
-});
-
-//event route
-router.get("/events", function(req,res){
-    User.find({"email": global.userEmail}, function(err, foundUser){
-        if(err){
-            res.send(err);
-        }else{
-            if(foundUser.length > 0){  
-        
-                Event.find({"user" : foundUser[0]._id},function(err,allEvents){                    
-                    res.render("users/events", {allEvents : allEvents});
-                });
-            }
-            else{
-                res.redirect("/");
-            }
-        }
-    });
-});
-
-
-// delete gs
-router.get("/delete-event", function(req,res){
-    var q = url.parse(req.url, true);
-    var qdata = q.query; 
-           
-    //destroy family
-    Event.findByIdAndRemove(qdata.id, function(err){
-        if(err){
-            console.log(err);
-        }else{
-            //redirect
-            res.redirect("/events");
-        }
-    });         
-});
-
-//add event ds route
-router.get("/add-event", function(req,res){
-    res.render("users/add-event");
-});
-
+// =================== Start Observer Pattern ===============
 
 // handle add event logic ds
-router.post("/add-event", function(req,res){    
+router.post("/add-event", isDS, function(req,res){    
 
     User.find({},function(err,allUser){
         if(err){
@@ -113,61 +68,53 @@ router.post("/add-event", function(req,res){
     
 });
 
+// =================== End Observer Pattern ===============
 
-// delete gs
-router.get("/delete-clerk", isClerkOwn, function(req,res){
-    var q = url.parse(req.url, true);
-    var qdata = q.query; 
 
-    //destroy family
-    User.findByIdAndRemove(qdata.id, function(err){
+//forbidde
+router.get("/forbidden", function(req,res){
+    res.render("forbidden");
+});
+
+//event route
+router.get("/events", isLoggedIn, function(req,res){
+    User.find({"email": global.userEmail}, function(err, foundUser){
         if(err){
-            console.log(err);
+            res.send(err);
         }else{
-            //redirect
-            res.redirect("/search-clerk");
+            if(foundUser.length > 0){  
+        
+                Event.find({"user" : foundUser[0]._id},function(err,allEvents){                    
+                    res.render("users/events", {allEvents : allEvents});
+                });
+            }
+            else{
+                res.redirect("/");
+            }
         }
     });
 });
 
-//search clerk
-router.get("/search-clerk", isGsDs, function(req,res){
-    User.find({"level":2}, function(err,allClerk){
-        if(allClerk.length > 0){                
-            res.render("users/search-clerk",{clerks : allClerk});
-        }           
-        else{
-            res.render("landing/index");
-        } 
-    })
+//add event ds route
+router.get("/add-event", isDS, function(req,res){
+    res.render("users/add-event");
 });
 
+
 // delete gs
-router.get("/delete-gs", isDS, function(req,res){
+router.get("/delete-event", isLoggedIn, function(req,res){
     var q = url.parse(req.url, true);
     var qdata = q.query; 
-
+           
     //destroy family
-    User.findByIdAndRemove(qdata.id, function(err){
+    Event.findByIdAndRemove(qdata.id, function(err){
         if(err){
             console.log(err);
         }else{
             //redirect
-            res.redirect("/search-gs");
+            res.redirect("/events");
         }
-    });
-});
-
-//search GS
-router.get("/search-gs", isDS, function(req,res){
-    User.find({"level":3}, function(err,allGs){
-        if(allGs.length > 0){                
-            res.render("users/search-gs",{gses : allGs});
-        }           
-        else{
-            res.render("landing/index");
-        } 
-    })
+    });         
 });
 
 
@@ -232,13 +179,13 @@ router.get("/change-password", isLoggedIn, function(req,res){
 });
 
 
-// root route
-router.get("/",function(req,res){
-    res.render("login");
-});
+// // root route
+// router.get("/",function(req,res){
+//     res.render("login");
+// });
 
 //landing route
-router.get("/landing", isLoggedIn, function(req,res){
+router.get("/", function(req,res){
     Family.find({},function(err,allFamily){
         if(err){
             console.log(err);
@@ -478,6 +425,35 @@ router.post("/register-gs", isDS, function(req,res){
     });
 });
 
+// delete gs
+router.get("/delete-gs", isDS, function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+
+    //destroy family
+    User.findByIdAndRemove(qdata.id, function(err){
+        if(err){
+            console.log(err);
+        }else{
+            //redirect
+            res.redirect("/search-gs");
+        }
+    });
+});
+
+//search GS
+router.get("/search-gs", isDS, function(req,res){
+    User.find({"level":3}, function(err,allGs){
+        if(allGs.length > 0){                
+            res.render("users/search-gs",{gses : allGs});
+        }           
+        else{
+            res.render("landing/index");
+        } 
+    })
+});
+
+
 //register clerk route
 router.get("/register-clerk", isGS, function(req,res){
     res.render("users/register-clerk");
@@ -531,6 +507,118 @@ router.post("/register-clerk", isGS, function(req,res){
     });
 });
 
+// delete gs
+router.get("/delete-clerk", isClerkOwn, function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+
+    //destroy family
+    User.findByIdAndRemove(qdata.id, function(err){
+        if(err){
+            console.log(err);
+        }else{
+            //redirect
+            res.redirect("/search-clerk");
+        }
+    });
+});
+
+
+//search clerk
+router.get("/search-clerk", isGsDs, function(req,res){
+    User.find({"designation":"Clerk"}, function(err,allClerk){
+        if(allClerk.length > 0){                
+            res.render("users/search-clerk",{clerks : allClerk});
+        }           
+        else{
+            Family.find({},function(err,allFamily){
+                if(err){
+                    console.log(err);
+                }else{
+                    Member.find({},function(err,allMember){
+                        if(err){
+                            console.log(err);
+                        }else{
+                            res.render("landing/index", {families : allFamily, members: allMember});
+                        }
+                    });  
+                }
+            });             
+        } 
+    });
+});
+
+// handle make it super logic
+router.get("/super-clerk", isGS, function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+
+    User.findById(qdata.id, function(err, foundUser){
+        if(err){
+            res.send(err);
+        }else{           
+            User.updateOne({"email":foundUser.email}, { $set: {level: 3} },function(err, user){
+                User.find({"designation":"Clerk"}, function(err,allClerk){
+                    if(allClerk.length > 0){                
+                        res.render("users/search-clerk",{clerks : allClerk});
+                    }           
+                    else{
+                        Family.find({},function(err,allFamily){
+                            if(err){
+                                console.log(err);
+                            }else{
+                                Member.find({},function(err,allMember){
+                                    if(err){
+                                        console.log(err);
+                                    }else{
+                                        res.render("landing/index", {families : allFamily, members: allMember});
+                                    }
+                                });  
+                            }
+                        });             
+                    } 
+                }) 
+            });                           
+        }
+    });
+});
+
+// handle down to normal logic
+router.get("/undo-super", isGS, function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+
+    User.findById(qdata.id, function(err, foundUser){
+        if(err){
+            res.send(err);
+        }else{           
+            User.updateOne({"email":foundUser.email}, { $set: {level: 2} },function(err, user){
+                User.find({"designation":"Clerk"}, function(err,allClerk){
+                    if(allClerk.length > 0){                
+                        res.render("users/search-clerk",{clerks : allClerk});
+                    }           
+                    else{
+                        Family.find({},function(err,allFamily){
+                            if(err){
+                                console.log(err);
+                            }else{
+                                Member.find({},function(err,allMember){
+                                    if(err){
+                                        console.log(err);
+                                    }else{
+                                        res.render("landing/index", {families : allFamily, members: allMember});
+                                    }
+                                });  
+                            }
+                        });             
+                    } 
+                }) 
+            });                           
+        }
+    });
+});
+
+
 // show login
 router.get("/login",function(req,res){
     res.render("login");
@@ -565,7 +653,7 @@ router.post("/login", function(req,res){
                             res.send(req.session.returnTo || '/');
                             delete req.session.returnTo;
                         }else{                                
-                            res.send("/landing");
+                            res.send("/");
                         }                                 
                     }
                     else{

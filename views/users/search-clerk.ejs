@@ -29,6 +29,11 @@
                         <tr>
                           <% if(global.division == clerk.division && global.level == 3){ %>
                             <td class="text-center">
+                                <% if(clerk.level == 2){ %>
+                                    <button type="button" href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#super<%= clerk.id %>">Super</button>
+                                <% } else if(clerk.level == 3 && clerk.email != global.userEmail){ %>
+                                    <button type="button" href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#undo-super<%= clerk.id %>">Undo Super</button>                                    
+                                <% } %>
                                 <button type="button" href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#clerk<%= clerk.id %>">Delete</button>
                             </td>
                           <% } else {%>
@@ -65,6 +70,43 @@
                             </div>
                             </div>
                         </div>
+
+                        <!-- Super Modal-->
+                        <div class="modal fade" id="super<%= clerk.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Ready to Change?</h5>
+                              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">×</span>
+                              </button>
+                              </div>
+                              <div class="modal-body">Select "Change" below if you are ready to make this Clerk as same as GS privilages.</div>
+                              <div class="modal-footer">
+                              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                              <a class="btn btn-primary" href="/super-clerk?id=<%= clerk.id %>">Change</a>
+                              </div>
+                          </div>
+                          </div>
+                      </div>
+                      <!-- Super Modal-->
+                      <div class="modal fade" id="undo-super<%= clerk.id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Ready to Change?</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">Select "Change" below if you are ready to make this Clerk with usual privilages.</div>
+                            <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-primary" href="/undo-super?id=<%= clerk.id %>">Change</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                     <% }); %>
                 </tbody>
                 <tfoot>
