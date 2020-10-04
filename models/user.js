@@ -12,12 +12,12 @@ var UserSchema = new mongoose.Schema({
     code: Number,
     status: Number,
     level:Number,
-    events: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref:"Event" 
-        }
-    ]
+    // events: [
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref:"Event" 
+    //     }
+    // ]
 });
 
 module.exports = mongoose.model("User",UserSchema);

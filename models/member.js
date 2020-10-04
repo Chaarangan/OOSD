@@ -11,6 +11,7 @@ var memberSchema = mongoose.Schema({
     mobile:String,
     religion:Number,
     ethnic:Number,
+    jobState : Number,
     job:String,
     monthlyIncome:String,  
     temporaryAddress:String,

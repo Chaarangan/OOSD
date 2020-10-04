@@ -123,11 +123,36 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" autocomplete="off" value="<%= member.job %>" name="member[job]" placeholder="Enter your Job">
+                        <select name="jobState" onChange="check();" class="form-control custom-select" required id="jobState">
+                            <option value="" disabled selected>Choose Job State</option>
+                            <% if(member.jobState == 1){ 
+                                var l = 'selected';
+                            }else if(member.jobState == 2){ 
+                                var m = 'selected';                   
+                            } %>
+                            <option value="1" <%= l %> >Yes</option>
+                            <option value="2" <%= m %> >No</option>
+                        </select>
+                        <div class="validate"></div>
+                        <script>
+                            function check(){
+                                if($("#jobState").val() == 2){
+                                    $("#job").attr("disabled", true);
+                                    $("#monthlyIncome").attr("disabled", true);
+                                }
+                                else{
+                                    $("#job").attr("disabled", false);
+                                    $("#monthlyIncome").attr("disabled", false);
+                                }
+                            }
+                        </script>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="job" class="form-control" autocomplete="off" value="<%= member.job %>" name="member[job]" placeholder="Enter your Job">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" autocomplete="off" value="<%= member.monthlyIncome %>" name="member[monthlyIncome]" placeholder="Enter Monthly Income">
+                        <input type="text" id="monthlyIncome" class="form-control" autocomplete="off" value="<%= member.monthlyIncome %>" name="member[monthlyIncome]" placeholder="Enter Monthly Income">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">

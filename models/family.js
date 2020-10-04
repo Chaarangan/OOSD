@@ -10,6 +10,7 @@ var familySchema = new mongoose.Schema({
     mobile:String,
     religion:Number,
     ethnic:Number,
+    jobState : Number,
     job:String,
     monthlyIncome:String,
     temporaryAddress:String,
@@ -17,12 +18,12 @@ var familySchema = new mongoose.Schema({
     gnDivision:Number,
     dsDivision:String,
     division:Number,
-    members: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref:"Member" 
-        }
-    ]
+    // members: [
+    //     {
+    //         type: mongoose.Schema.Types.ObjectId,
+    //         ref:"Member" 
+    //     }
+    // ]
 });
 
 module.exports = mongoose.model("Family",familySchema);

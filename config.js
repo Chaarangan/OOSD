@@ -2,7 +2,7 @@ var express         = require("express"),
     bodyparser      = require("body-parser"),
     mongoose        = require("mongoose");
 
-//singleton
+// =================== Start Singleton Pattern ===============
 class connection {
     init(connection) {
         if(connection != null){ 
@@ -10,7 +10,7 @@ class connection {
         }
     }
 }
-
+// =================== End Singleton Pattern ===============
   
 module.exports = new connection();
   

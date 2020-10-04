@@ -93,11 +93,31 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <input type="text" class="form-control" autocomplete="off" name="job" placeholder="Enter your Job">
+                        <select name="jobState" onChange="check();" class="form-control custom-select" required id="jobState">
+                            <option value="" disabled selected>Choose Job State</option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                        </select>
+                        <div class="validate"></div>
+                        <script>
+                            function check(){
+                                if($("#jobState").val() == 2){
+                                    $("#job").attr("disabled", true);
+                                    $("#monthlyIncome").attr("disabled", true);
+                                }
+                                else{
+                                    $("#job").attr("disabled", false);
+                                    $("#monthlyIncome").attr("disabled", false);
+                                }
+                            }
+                        </script>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="job" class="form-control" disabled autocomplete="off" name="job" placeholder="Enter your Job">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" autocomplete="off" name="monthlyIncome" placeholder="Enter Monthly Income">
+                        <input type="text" id="monthlyIncome" class="form-control" disabled autocomplete="off" name="monthlyIncome" placeholder="Enter Monthly Income">
                         <div class="validate"></div>
                     </div> 
                     <div class="form-group">

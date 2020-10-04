@@ -70,6 +70,80 @@ router.post("/add-event", isDS, function(req,res){
 
 // =================== End Observer Pattern ===============
 
+// =================== Start Decorator Pattern ===============
+
+// handle make it super logic
+router.get("/super-clerk", isGS, function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+
+    User.findById(qdata.id, function(err, foundUser){
+        if(err){
+            res.send(err);
+        }else{           
+            User.updateOne({"email":foundUser.email}, { $set: {level: 3} },function(err, user){
+                User.find({"designation":"Clerk"}, function(err,allClerk){
+                    if(allClerk.length > 0){                
+                        res.render("users/search-clerk",{clerks : allClerk});
+                    }           
+                    else{
+                        Family.find({},function(err,allFamily){
+                            if(err){
+                                console.log(err);
+                            }else{
+                                Member.find({},function(err,allMember){
+                                    if(err){
+                                        console.log(err);
+                                    }else{
+                                        res.render("landing/index", {families : allFamily, members: allMember});
+                                    }
+                                });  
+                            }
+                        });             
+                    } 
+                }) 
+            });                           
+        }
+    });
+});
+
+// handle down to normal logic
+router.get("/undo-super", isGS, function(req,res){
+    var q = url.parse(req.url, true);
+    var qdata = q.query; 
+
+    User.findById(qdata.id, function(err, foundUser){
+        if(err){
+            res.send(err);
+        }else{           
+            User.updateOne({"email":foundUser.email}, { $set: {level: 2} },function(err, user){
+                User.find({"designation":"Clerk"}, function(err,allClerk){
+                    if(allClerk.length > 0){                
+                        res.render("users/search-clerk",{clerks : allClerk});
+                    }           
+                    else{
+                        Family.find({},function(err,allFamily){
+                            if(err){
+                                console.log(err);
+                            }else{
+                                Member.find({},function(err,allMember){
+                                    if(err){
+                                        console.log(err);
+                                    }else{
+                                        res.render("landing/index", {families : allFamily, members: allMember});
+                                    }
+                                });  
+                            }
+                        });             
+                    } 
+                }) 
+            });                           
+        }
+    });
+});
+
+// =================== End Decorator Pattern ===============
+
 
 //forbidde
 router.get("/forbidden", function(req,res){
@@ -193,7 +267,7 @@ router.get("/", function(req,res){
             Member.find({},function(err,allMember){
                 if(err){
                     console.log(err);
-                }else{
+                }else{                    
                     res.render("landing/index", {families : allFamily, members: allMember});
                 }
             });  
@@ -545,76 +619,6 @@ router.get("/search-clerk", isGsDs, function(req,res){
                 }
             });             
         } 
-    });
-});
-
-// handle make it super logic
-router.get("/super-clerk", isGS, function(req,res){
-    var q = url.parse(req.url, true);
-    var qdata = q.query; 
-
-    User.findById(qdata.id, function(err, foundUser){
-        if(err){
-            res.send(err);
-        }else{           
-            User.updateOne({"email":foundUser.email}, { $set: {level: 3} },function(err, user){
-                User.find({"designation":"Clerk"}, function(err,allClerk){
-                    if(allClerk.length > 0){                
-                        res.render("users/search-clerk",{clerks : allClerk});
-                    }           
-                    else{
-                        Family.find({},function(err,allFamily){
-                            if(err){
-                                console.log(err);
-                            }else{
-                                Member.find({},function(err,allMember){
-                                    if(err){
-                                        console.log(err);
-                                    }else{
-                                        res.render("landing/index", {families : allFamily, members: allMember});
-                                    }
-                                });  
-                            }
-                        });             
-                    } 
-                }) 
-            });                           
-        }
-    });
-});
-
-// handle down to normal logic
-router.get("/undo-super", isGS, function(req,res){
-    var q = url.parse(req.url, true);
-    var qdata = q.query; 
-
-    User.findById(qdata.id, function(err, foundUser){
-        if(err){
-            res.send(err);
-        }else{           
-            User.updateOne({"email":foundUser.email}, { $set: {level: 2} },function(err, user){
-                User.find({"designation":"Clerk"}, function(err,allClerk){
-                    if(allClerk.length > 0){                
-                        res.render("users/search-clerk",{clerks : allClerk});
-                    }           
-                    else{
-                        Family.find({},function(err,allFamily){
-                            if(err){
-                                console.log(err);
-                            }else{
-                                Member.find({},function(err,allMember){
-                                    if(err){
-                                        console.log(err);
-                                    }else{
-                                        res.render("landing/index", {families : allFamily, members: allMember});
-                                    }
-                                });  
-                            }
-                        });             
-                    } 
-                }) 
-            });                           
-        }
     });
 });
 

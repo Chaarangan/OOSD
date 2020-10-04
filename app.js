@@ -51,8 +51,8 @@ app.use(memberRoutes);
 app.use(familyRoutes);
 
 //seeds
-var seedDB = require("./seeds");
-seedDB();
+// var seedDB = require("./seeds");
+// seedDB();
 
 app.listen(process.env.PORT || 3000, process.env.IP,function(){
     console.log("Data Management server is started");

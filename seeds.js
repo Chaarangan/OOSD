@@ -11,6 +11,7 @@ const ethnics = [1,2,3,4];
 const gss = [1,2];
 const relations = [1,2,3];
 const ic = ["x","v","y"];
+const employable = [1,2];
 
 function seedDB(){
     for (let i = 0; i < 100; i += 1) {
@@ -26,6 +27,7 @@ function seedDB(){
             mobile:"07" + faker.random.number({min:0, max:9}).toString() + faker.random.number({min:1000000, max: 9999999}).toString(),
             religion:faker.random.arrayElement(religion),
             ethnic: ethnic,
+            jobState : faker.random.arrayElement(employable),
             job:faker.name.jobTitle(),
             monthlyIncome:"Rs." + faker.finance.amount(9000,10000,2).toString(),
             temporaryAddress:faker.address.streetAddress(),
@@ -33,6 +35,7 @@ function seedDB(){
             gnDivision:faker.random.arrayElement(gss),
             dsDivision:"Thunukkai",
             division: 1,
+
         });
 
         Family.create(newFamily, function(err, family){
@@ -53,6 +56,7 @@ function seedDB(){
                             mobile:"07" + faker.random.number({min:0, max:9}).toString() + faker.random.number({min:1000000, max: 9999999}).toString(),
                             religion:faker.random.arrayElement(religion),
                             ethnic:ethnic,
+                            jobState : faker.random.arrayElement(employable),
                             job:faker.name.jobTitle(),
                             monthlyIncome:"Rs." + faker.finance.amount(9000,100000,2).toString(),
                             temporaryAddress:faker.address.streetAddress(),

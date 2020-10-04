@@ -210,22 +210,41 @@
             <h6 class="m-0 font-weight-bold text-primary">Job Details</h6>
           </div>
           <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-lg-6">
-                    Job
+            <% if(family.jobState == 1){ %>
+                <div class="row mb-3">
+                    <div class="col-lg-6">
+                        Job
+                    </div>
+                    <div class="col-lg-6">
+                        <%= family.job %>
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                    <%= family.job %>
+                <div class="row mb-3">
+                    <div class="col-lg-6">
+                        Monthly Income
+                    </div>
+                    <div class="col-lg-6">
+                        <%= family.monthlyIncome %>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-lg-6">
-                    Monthly Income
-                </div>
-                <div class="col-lg-6">
-                    <%= family.monthlyIncome %>
-                </div>
-            </div>
+              <% } else { %>
+                <div class="row mb-3">
+                  <div class="col-lg-6">
+                      Job
+                  </div>
+                  <div class="col-lg-6">
+                      No
+                  </div>
+              </div>
+              <div class="row mb-3">
+                  <div class="col-lg-6">
+                      Monthly Income
+                  </div>
+                  <div class="col-lg-6">
+                      No
+                  </div>
+              </div>
+            <% } %>
           </div>
         </div>
 
@@ -445,22 +464,41 @@
             <h6 class="m-0 font-weight-bold text-primary">Job Details</h6>
           </div>
           <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-lg-6">
-                    Job
+            <% if(member.jobState == 1){ %>
+                <div class="row mb-3">
+                    <div class="col-lg-6">
+                        Job
+                    </div>
+                    <div class="col-lg-6">
+                        <%= member.job %>
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                    <%= member.job %>
+                <div class="row mb-3">
+                    <div class="col-lg-6">
+                        Monthly Income
+                    </div>
+                    <div class="col-lg-6">
+                        <%= member.monthlyIncome %>
+                    </div>
                 </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-lg-6">
-                    Monthly Income
-                </div>
-                <div class="col-lg-6">
-                    <%= member.monthlyIncome %>
-                </div>
-            </div>
+              <% } else { %>
+                <div class="row mb-3">
+                  <div class="col-lg-6">
+                      Job
+                  </div>
+                  <div class="col-lg-6">
+                      No
+                  </div>
+              </div>
+              <div class="row mb-3">
+                  <div class="col-lg-6">
+                      Monthly Income
+                  </div>
+                  <div class="col-lg-6">
+                      No
+                  </div>
+              </div>
+            <% } %>
           </div>
         </div>
 
