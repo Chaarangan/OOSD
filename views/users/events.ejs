@@ -28,9 +28,13 @@
                 <tbody>
                     <% allEvents.forEach(function(event) {   %>
                         <tr>
+                          <% if(global.level == 4){ %>
                             <td class="text-center">
                                 <button type="button" href="#" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#event<%= event.id %>">Mark as Finished</button>
-                            </td>                          
+                            </td>   
+                          <% } else{ %>                       
+                            <td class="text-center">No Access</td>
+                          <% } %>
                             <td class="text-center"><%= event.title %></td>
                             <td class="text-center"><%= event.date %></td>
                             <td class="text-center"><%= event.time %></td>

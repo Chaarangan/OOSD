@@ -23,6 +23,7 @@ global.sess;
 global.user;
 global.level;
 global.division;
+global.events;
 
 //mailer
 const nodemailer = require('nodemailer');  
@@ -32,7 +33,7 @@ let transporter = nodemailer.createTransport(smtpTransport({
       host: 'smtp.gmail.com',
       auth: {
         user: 'testing.c98@gmail.com',
-        pass: 'chanuTest2020'
+        pass: '#mathsstudy8#'
       }
 }));
 
@@ -488,7 +489,7 @@ router.post("/register-gs", isDS, function(req,res){
                                 if (error) {
                                     res.send(error);
                                 } else {
-                                    res.send("/activate");                                    
+                                    res.send("/search-clerk");                                    
                                 }
                             });           
                         }        
@@ -570,7 +571,7 @@ router.post("/register-clerk", isGS, function(req,res){
                                 if (error) {
                                     res.send(error);
                                 } else {
-                                    res.send("/activate");                                    
+                                    res.send("/search-clerk");                                    
                                 }
                             });           
                         }        
@@ -634,6 +635,7 @@ router.post("/login", function(req,res){
     user = req.session;
     level = req.session;
     division = req.session;
+    events = req.session;
 
     User.find({"email": req.body.email}, function(err, foundUser){   
         if(foundUser.length >0){
@@ -656,8 +658,11 @@ router.post("/login", function(req,res){
                         if(req.session.returnTo){
                             res.send(req.session.returnTo || '/');
                             delete req.session.returnTo;
-                        }else{                                
-                            res.send("/");
+                        }else{      
+                            Event.find({"user" : foundUser[0]._id},function(err,allEvents){ 
+                                global.events = allEvents.length;                                                              
+                                res.send("/");
+                            });                           
                         }                                 
                     }
                     else{

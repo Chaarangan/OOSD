@@ -130,8 +130,11 @@
           this_form.find('.loading').slideUp();
           this_form.find('.sent-message').slideDown();
           this_form.find("input:not(input[type=submit]), textarea, select").val('');
+          setTimeout(function(){ this_form.find('.sent-message').slideUp(); }, 3000);
         } else if(msg[0] == "/"){
             this_form.find('.loading').slideUp();
+            this_form.find('.sent-message').slideDown();
+            setTimeout(function(){ this_form.find('.sent-message').slideUp(); }, 3000);
             window.location.assign(msg);
         }else{
           this_form.find('.loading').slideUp();
