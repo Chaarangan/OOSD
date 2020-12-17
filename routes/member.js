@@ -112,7 +112,7 @@ router.post("/add-member", isGsClerk, function(req,res){
 
 //search member
 router.get("/search-member", isLoggedIn, function(req,res){
-    Member.find({},function(err,allMember){
+    Member.find({"division":global.user[0].division},function(err,allMember){
         if(err){
             res.redirect("/search-member");
         }else{

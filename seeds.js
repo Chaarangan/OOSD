@@ -43,6 +43,8 @@ function seedDB(){
                     console.log(err);
                 } else {
                     var familyID =  family._id;
+                    var division = family.gnDivision;
+
                     for (let i = 0; i < 6; i += 1) {
                         var newMember = new Member({
                            
@@ -63,7 +65,7 @@ function seedDB(){
                             permanentAddress: address,
                             gnDivision:faker.random.arrayElement(gss),
                             dsDivision:"Thunukkai",
-                            division: 1,
+                            division: division,
                             familyID: familyID, 
                         });
                         Member.create(newMember, function(err,member){                            

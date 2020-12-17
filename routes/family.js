@@ -302,7 +302,7 @@ function isFamilyOwn(req,res,next){
         if(err){
             console.log(err);
         }else{
-            if(global.division == foundFamily.division){
+            if(global.division == foundFamily.gnDivision){
                 return next();
             }
             else{
