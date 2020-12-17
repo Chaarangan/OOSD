@@ -7,7 +7,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 mb-0 text-gray-800"><%= family.fname + ' ' + family.lname %></h1>
       <div class="d-flex justify-content-end">
-        <% if(global.level == 3 && global.division == family.division){ %>
+        <% if(global.level == 3 && global.division == family.gnDivision){ %>
           <a href="/edit-family?id=<%= family._id %>" class="btn btn-success btn-circle btn-sm mr-3" data-toggle="tooltip" data-placement="top" title="Edit <%= family.fname %>">
             <i class="fas fa-pen"></i>
           </a>
@@ -18,7 +18,7 @@
             <i class="fas fa-plus"></i>
           </a>
         <% } %>
-        <% if(global.level == 2 && global.division == family.division){ %>
+        <% if(global.level == 2 && global.division == family.gnDivision){ %>
           <a href="/edit-family?id=<%= family._id %>" class="btn btn-success btn-circle btn-sm mr-3" data-toggle="tooltip" data-placement="top" title="Edit <%= family.fname %>">
             <i class="fas fa-pen"></i>
           </a>
@@ -350,7 +350,7 @@
         <%= member.fname + ' ' + member.lname %>
       </h1>
       <div class="d-flex justify-content-end">
-        <% if(global.level == 3 && global.division == member.division){ %>
+        <% if(global.level == 3 && global.division == family.gnDivision){ %>
           <a href="/edit-member?id=<%= member._id %>" class="btn btn-success btn-circle btn-sm mr-3" data-toggle="tooltip" data-placement="top" title="Edit <%= member.fname %>">
             <i class="fas fa-pen"></i>
           </a>
@@ -358,7 +358,7 @@
             <i class="fas fa-trash"></i>
           </a>
         <% } %>
-        <% if(global.level == 2 && global.division == member.division){ %>
+        <% if(global.level == 2 && global.division == family.gnDivision){ %>
           <a href="/edit-member?id=<%= member._id %>" class="btn btn-success btn-circle btn-sm mr-3" data-toggle="tooltip" data-placement="top" title="Edit <%= member.fname %>">
             <i class="fas fa-pen"></i>
           </a>

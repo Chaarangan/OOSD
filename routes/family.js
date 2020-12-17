@@ -186,7 +186,7 @@ router.get("/show-family", isLoggedIn, function(req,res){
 
 //search famlily
 router.get("/search-family", isLoggedIn, function(req,res){
-    Family.find({},function(err,allFamily){
+    Family.find({"gnDivision": global.user[0].division},function(err,allFamily){
         if(err){
             res.redirect("/search-family");
         }else{
