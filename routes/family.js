@@ -111,17 +111,22 @@ router.get("/add-family", isGsClerk, function(req,res){
 //add family post
 router.post("/add-family",isGsClerk, function(req,res){
     // get data from form and add to FAMILY array
-    var newFamily = {fname:req.body.fname, lname:req.body.lname, dob: req.body.dob, nic: req.body.nic, gender:req.body.gender, email:req.body.email, mobile:req.body.mobile, religion:req.body.religion, ethnic: req.body.ethnic, job:req.body.job, monthlyIncome: req.body.monthlyIncome, temporaryAddress: req.body.temporaryAddress, permanentAddress: req.body.permanentAddress, gnDivision:global.division, dsDivision: "Thunukkai", division:global.division};
-    
-    //create a new FAMILY and save to db
-    Family.create(newFamily,function(err,newlyCreated){
-        if(err){
-            res.send(err);
-        }else{
-            //redirect back to FAMILY page
-            res.send("OK");
-        }
-    })
+    var today = dateFormat(now, "yyyy-mm-dd");
+    if(today >= req.body.dob){
+        var newFamily = {fname:req.body.fname, lname:req.body.lname, dob: req.body.dob, nic: req.body.nic, gender:req.body.gender, email:req.body.email, mobile:req.body.mobile, religion:req.body.religion, ethnic: req.body.ethnic, job:req.body.job, monthlyIncome: req.body.monthlyIncome, temporaryAddress: req.body.temporaryAddress, permanentAddress: req.body.permanentAddress, gnDivision:global.division, dsDivision: "Thunukkai", division:global.division};
+        //create a new FAMILY and save to db
+        Family.create(newFamily,function(err,newlyCreated){
+            if(err){
+                res.send(err);
+            }else{
+                //redirect back to FAMILY page
+                res.send("OK");
+            }
+        })
+    }
+    else{
+        res.send("You cannot add future dates!");
+    }
 });
 
 
@@ -142,13 +147,19 @@ router.post("/edit-family", isGsClerk, isFamilyOwn, function(req,res){
     var q = url.parse(req.url, true);
     var qdata = q.query; 
     // find and update the correct family
-    Family.findByIdAndUpdate(qdata.id, req.body.family,function(err,updatedFamily){
-        if(err){
-            res.send(err);
-        }else{
-            res.send("/show-family?id=" + qdata.id);
-        }
-    });
+    var today = dateFormat(now, "yyyy-mm-dd");
+    if(today >= req.body.family.dob){
+        Family.findByIdAndUpdate(qdata.id, req.body.family,function(err,updatedFamily){
+            if(err){
+                res.send(err);
+            }else{
+                res.send("/show-family?id=" + qdata.id);
+            }
+        });
+    }
+    else{
+        res.send("You cannot add future dates!");
+    }
 });
     
 // show family

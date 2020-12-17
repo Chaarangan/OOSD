@@ -50,31 +50,21 @@
                       <div class="validate"></div>
                   </div>
                   <div class="form-group">
-                    <select name="type" class="form-control custom-select"  required multiple>
+                    <select name="type[]" class="form-control custom-select"  required multiple>
                         <option value="" disabled selected>To whom</option>
-                        <option value="1">All GSs</option>
-                        <option value="2">Barathinagar</option>
-                        <option value="3">Pugalenthinagar</option>
+                        <option value="3">All GSs</option>
+                        <option value="1">Barathinagar</option>
+                        <option value="2">Pugalenthinagar</option>
                     </select>
                     <div class="validate"></div>
                 </div>
                   <div class="form-group">
-                    <input type="text" class="form-control" autocomplete="off" name="date" id="datepicker" placeholder="Enter event date" data-rule="required" data-msg="Please enter date of birth">
+                    <input type="date" class="form-control" autocomplete="off" name="date" id="datepicker" placeholder="Enter event date" data-rule="required" data-msg="Please enter date of birth">
                     <div class="validate"></div>
-                    <script>
-                        $('#datepicker').datepicker({
-                            uiLibrary: 'bootstrap4.5'
-                        });
-                    </script> 
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" autocomplete="off" name="time" id="timepicker" placeholder="Enter event time" data-rule="required" data-msg="Please enter date of birth">
+                    <input type="time" class="form-control" autocomplete="off" name="time" id="timepicker" placeholder="Enter event time" data-rule="required" data-msg="Please enter date of birth">
                     <div class="validate"></div>
-                    <script>
-                        $('#timepicker').timepicker({
-                            uiLibrary: 'bootstrap4.5'
-                        });
-                    </script> 
                 </div>
                 <div class="form-group">
                     <textarea type="text"  class="form-control" autocomplete="off" name="place" placeholder="Enter event place"></textarea>

@@ -54,7 +54,7 @@
                       <div class="validate"></div>
                   </div>
                   <div class="form-group">
-                    <input type="text" class="form-control form-control-user" name="mobile" value="<%= UserProfile[0].mobile %>" placeholder="Enter Mobile" data-rule="minlen:10" data-msg="Please enter a valid mobile">
+                    <input type="text" pattern="([0-9]{10})" title="Must contains 10 digits only. eg : 0777123456" class="form-control form-control-user" name="mobile" value="<%= UserProfile[0].mobile %>" placeholder="Enter Mobile" data-rule="minlen:10" data-msg="Please enter a valid mobile">
                     <div class="validate"></div>
                 </div>
 

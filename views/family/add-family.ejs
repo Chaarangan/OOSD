@@ -29,13 +29,8 @@
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" autocomplete="off" name="dob" id="datepicker" placeholder="Enter Date of Birth" data-rule="required" data-msg="Please enter date of birth">
-                        <div class="validate"></div>
-                        <script>
-                            $('#datepicker').datepicker({
-                                uiLibrary: 'bootstrap4'
-                            });
-                        </script> 
+                        <input type="date" class="form-control" autocomplete="off" name="dob" id="datepicker" placeholder="Enter Date of Birth" data-rule="required" data-msg="Please enter date of birth">
+                        <div class="validate"></div>                        
                     </div>
                     <div class="form-group">
                         <select name="gender" class="form-control custom-select"  required>
@@ -46,7 +41,7 @@
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" autocomplete="off" name="nic" placeholder="Enter NIC Number">
+                        <input type="text" class="form-control" pattern="([0-9]{9})([a-z]{1})" title="Must contains 9 digits first then one chars as last letter. eg: 123456789v" autocomplete="off" name="nic" placeholder="Enter NIC Number">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
@@ -138,7 +133,7 @@
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" autocomplete="off" name="mobile" placeholder="Enter Mobile Number">
+                        <input type="text" class="form-control" pattern="([0-9]{10})" title="Must contains 10 digits only. eg : 0777123456" autocomplete="off" name="mobile" placeholder="Enter Mobile Number">
                         <div class="validate"></div>
                     </div>
                 </div>

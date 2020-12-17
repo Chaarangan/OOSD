@@ -85,20 +85,26 @@ router.post("/add-member", isGsClerk, function(req,res){
             res.send(err);
         }else{
             //create new member
-            var newMember = {relation: req.body.relation, fname:req.body.fname, lname:req.body.lname, dob: req.body.dob, gender:req.body.gender, nic: req.body.nic, email:req.body.email, mobile:req.body.mobile, religion:req.body.religion, ethnic: req.body.ethnic, job:req.body.job, monthlyIncome: req.body.monthlyIncome, temporaryAddress: req.body.temporaryAddress, permanentAddress: req.body.permanentAddress, familyID:qdata.id, division:global.division};
-            Member.create(newMember,function(err,member){
-                if(err){
-                    res.send(err);
-                }else{
-                   
-                    member.gs = global.userEmail;
-                    // save member
-                    member.save(); 
-                
-                    //redirect family show page
-                    res.send("/show-family?id=" + qdata.id);
-                }
-            });
+            var today = dateFormat(now, "yyyy-mm-dd");
+            if(today >= req.body.dob){
+                var newMember = {relation: req.body.relation, fname:req.body.fname, lname:req.body.lname, dob: req.body.dob, gender:req.body.gender, nic: req.body.nic, email:req.body.email, mobile:req.body.mobile, religion:req.body.religion, ethnic: req.body.ethnic, job:req.body.job, monthlyIncome: req.body.monthlyIncome, temporaryAddress: req.body.temporaryAddress, permanentAddress: req.body.permanentAddress, familyID:qdata.id, division:global.division};
+                Member.create(newMember,function(err,member){
+                    if(err){
+                        res.send(err);
+                    }else{
+                    
+                        member.gs = global.userEmail;
+                        // save member
+                        member.save(); 
+                    
+                        //redirect family show page
+                        res.send("/show-family?id=" + qdata.id);
+                    }
+                });
+            }
+            else{
+                res.send("You cannot add future dates!");
+            }
         }
     });
 });
@@ -132,13 +138,19 @@ router.post("/edit-member", isGsClerk, isMemberOwn, function(req,res){
     var q = url.parse(req.url, true);
     var qdata = q.query; 
     // find and update the correct member
-    Member.findByIdAndUpdate(qdata.id, req.body.member,function(err,updatedmember){
-        if(err){
-            res.send(err);
-        }else{
-            res.send("/show-family?id=" + qdata.fid);
-        }
-    });
+    var today = dateFormat(now, "yyyy-mm-dd");
+    if(today >= req.body.member.dob){
+        Member.findByIdAndUpdate(qdata.id, req.body.member,function(err,updatedmember){
+            if(err){
+                res.send(err);
+            }else{
+                res.send("/show-family?id=" + qdata.fid);
+            }
+        });
+    }
+    else{
+        res.send("You cannot add future dates!");
+    }
 });
 
 

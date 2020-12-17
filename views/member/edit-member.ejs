@@ -23,12 +23,14 @@
                     <div class="form-group">
                         <select name="member[relation]" class="form-control custom-select" required data-rule="required" data-msg="Please select one">
                             <option value="" disabled selected>Choose Relationship</option>
-                            <% if(member.relation == 1){ 
-                                var i = 'selected';
+                            <% 
+                            var i=j=k="";
+                            if(member.relation == 1){ 
+                                i = 'selected';
                             }else if(member.relation == 2){ 
-                                var j = 'selected';
+                                j = 'selected';
                             }else if(member.relation == 3){ 
-                                var k = 'selected';
+                                k = 'selected';
                             } %>
                             <option value="1" <%= i %> >Wife</option>
                             <option value="2" <%= j %> >Daughter</option>
@@ -45,21 +47,18 @@
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" autocomplete="off" name="member[dob]" value="<%= member.dob %>" id="datepicker" placeholder="Enter Date of Birth" data-rule="required" data-msg="Please enter date of birth">
-                        <div class="validate"></div>
-                        <script>
-                            $('#datepicker').datepicker({
-                                uiLibrary: 'bootstrap4'
-                            });
-                        </script> 
+                        <input type="date" class="form-control" autocomplete="off" name="member[dob]" value="<%= member.dob %>" id="datepicker" placeholder="Enter Date of Birth" data-rule="required" data-msg="Please enter date of birth">
+                        <div class="validate"></div>                        
                     </div>
                     <div class="form-group">
                         <select name="member[gender]" class="form-control custom-select"  required>
                             <option value="" disabled selected>Choose Gender</option>
-                            <% if(member.gender == 1){ 
-                                var l = 'selected';
+                            <% 
+                            var l=m="";
+                            if(member.gender == 1){ 
+                                l = 'selected';
                             }else if(member.gender == 2){ 
-                                var m = 'selected';
+                                m = 'selected';
                             } %>
                             <option value="1" <%= l %>>Male</option>
                             <option value="2" <%= m %>>Female</option>
@@ -67,20 +66,22 @@
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" autocomplete="off" name="member[nic]" value="<%= member.nic %>" placeholder="Enter NIC Number">
+                        <input type="text" class="form-control" pattern="([0-9]{9})([a-z]{1})" title="Must contains 9 digits first then one chars as last letter. eg: 123456789v" autocomplete="off" name="member[nic]" value="<%= member.nic %>" placeholder="Enter NIC Number">
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
                         <select name="member[religion]" class="form-control custom-select" required>
                             <option value="" disabled selected>Choose Religion</option>
-                            <% if(member.religion == 1){ 
-                                var a = 'selected';
+                            <% 
+                            var a=b=c=d="";
+                            if(member.religion == 1){ 
+                                a = 'selected';
                             }else if(member.religion == 2){ 
-                                var b = 'selected';
+                                b = 'selected';
                             }else if(member.religion == 3){ 
-                                var c = 'selected';
+                                c = 'selected';
                             }else if(member.religion == 4){ 
-                                var d = 'selected';
+                                d = 'selected';
                             } %>
                             <option value="1" <%= a %> >Hinduism</option>
                             <option value="2" <%= b %> >Christianity</option>
@@ -92,14 +93,16 @@
                     <div class="form-group">
                         <select name="member[ethnic]" class="form-control custom-select" required>
                             <option value="" disabled selected>Choose Ethnic</option>
-                            <% if(member.ethnic == 1){ 
-                                var e = 'selected';
+                            <% 
+                            var e=f=g=h="";
+                            if(member.ethnic == 1){ 
+                                e = 'selected';
                             }else if(member.ethnic == 2){ 
-                                var f = 'selected';
+                                f = 'selected';
                             }else if(member.ethnic == 3){ 
-                                var g = 'selected';
+                                g = 'selected';
                             }else if(member.ethnic == 4){ 
-                                var h = 'selected';
+                                h = 'selected';
                             } %>
                             <option value="1" <%= e %> >Tamils</option>
                             <option value="2" <%= f %> >Sinhalese</option>
@@ -123,12 +126,14 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <select name="jobState" onChange="check();" class="form-control custom-select" required id="jobState">
+                        <select name="member[jobState]" onChange="check();" class="form-control custom-select" required id="jobState">
                             <option value="" disabled selected>Choose Job State</option>
-                            <% if(member.jobState == 1){ 
-                                var l = 'selected';
+                            <% 
+                            var l=m="";
+                            if(member.jobState == 1){ 
+                                l = 'selected';
                             }else if(member.jobState == 2){ 
-                                var m = 'selected';                   
+                                m = 'selected';                   
                             } %>
                             <option value="1" <%= l %> >Yes</option>
                             <option value="2" <%= m %> >No</option>
@@ -182,7 +187,7 @@
                         <div class="validate"></div>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" autocomplete="off" name="member[mobile]" placeholder="Enter Mobile Number" value="<%= member.mobile %>">
+                        <input type="text" class="form-control" autocomplete="off" name="member[mobile]" placeholder="Enter Mobile Number" value="<%= member.mobile %>" pattern="([0-9]{10})" title="Must contains 10 digits only. eg : 0777123456">
                         <div class="validate"></div>
                     </div>
                 </div>

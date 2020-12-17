@@ -6,6 +6,8 @@ var express     = require("express"),
     Member     = require("../models/member"),
     Event     = require("../models/event"),
     session = require('express-session'),
+    dateFormat = require('dateformat'),
+    now = new Date(),
     url = require("url");
 
 
@@ -42,31 +44,105 @@ let transporter = nodemailer.createTransport(smtpTransport({
 // handle add event logic ds
 router.post("/add-event", isDS, function(req,res){    
 
-    User.find({},function(err,allUser){
-        if(err){
-            res.send(err);
-        }else{
-            if(allUser.length > 0){  
-                //observer                           
-                function notifyListners(allUser) {  
-                    allUser.forEach(function(user){ 
-                        var newEvent = new Event({title:req.body.title, type: req.body.type, date:req.body.date, time: req.body.time, place:req.body.place, requirements: req.body.requirement, user: user._id});
-                        Event.create(newEvent, function(err,event){
-                            if(err){
-                                res.send(err);
+    var today = dateFormat(now, "yyyy-mm-dd");               
+    if(req.body.date > today){ 
+        //observer                           
+        function notifyListners() {  
+            req.body.type.forEach(function(type){ 
+                if(parseInt(type) == 3){
+                    User.find({},function(err,allUser){
+                        allUser.forEach(function(user){ 
+                            var newEvent = new Event({title:req.body.title, date:req.body.date, time: req.body.time, place:req.body.place, requirements: req.body.requirement, user: user._id});
+                            Event.find({"title":req.body.title, "date": req.body.date, "time": req.body.time, "place": req.body.place, "requirements": req.body.requirement,"user": user._id}, function(err,allEvents){
+                                if(allEvents.length == 0){
+                                    Event.create(newEvent, function(err,event){
+                                        if(err){
+                                            res.send(err);
+                                        } 
+                                        else{
+                                            //send verification email
+                                            var mailOptions = {
+                                                from: 'charangan.18@cse.mrt.ac.lk',
+                                                to: user.email,
+                                                subject: 'New Event From DS',
+                                                html: '<p class="text-center">There will be an event on ' + req.body.date + ' at ' + req.body.time + ' in ' + req.body.place +'. Requirements are ' + req.body.requirement + '.</p>'
+                                            };
+                                                                            
+                                            transporter.sendMail(mailOptions, function(error, info){
+                                                if (error) {
+                                                    res.send(error);
+                                                }
+                                            });
+                                        }                           
+                                    });
+                                }
+                            });
+                        });                       
+                    }); 
+                }
+                else{
+                    User.find({"division":parseInt(type)},function(err,allUser){                                               
+                        var newEvent = new Event({title:req.body.title, date:req.body.date, time: req.body.time, place:req.body.place, requirements: req.body.requirement, user: allUser[0]._id});
+                        Event.find({"title":req.body.title, "date": req.body.date, "time": req.body.time, "place": req.body.place,"requirements": req.body.requirement,"user": allUser[0]._id}, function(err,allEvents){
+                            if(allEvents.length == 0){
+                                Event.create(newEvent, function(err,event){
+                                    if(err){
+                                        res.send(err);
+                                    } 
+                                    else{
+                                        //send verification email
+                                        var mailOptions = {
+                                            from: 'charangan.18@cse.mrt.ac.lk',
+                                            to: allUser[0].email,
+                                            subject: 'New Event From DS',
+                                            html: '<p class="text-center">There will be an event on ' + req.body.date + ' at ' + req.body.time + ' in ' + req.body.place +'. Requirements are ' + req.body.requirement + '.</p>'
+                                        };
+                                                                        
+                                        transporter.sendMail(mailOptions, function(error, info){
+                                            if (error) {
+                                                res.send(error);
+                                            }
+                                        });
+                                    }                           
+                                });
                             }
                         });
-                    });                                              
-                };                     
-                notifyListners(allUser);
-                res.send("OK");
-            }
-            else{
-                res.send("No users found!");
-            }
-        }
-    });
-    
+                                               
+                    });
+                    var newEvent = new Event({title:req.body.title, date:req.body.date, time: req.body.time, place:req.body.place, requirements: req.body.requirement, user: global.user[0]._id});
+                    Event.find({"title":req.body.title, "date": req.body.date, "time": req.body.time, "place": req.body.place,"requirements": req.body.requirement,"user": global.user[0]._id}, function(err,allEvents){
+                        if(allEvents.length == 0){
+                            Event.create(newEvent, function(err,event){
+                                if(err){
+                                    res.send(err);
+                                }
+                                else{
+                                    //send verification email
+                                    var mailOptions = {
+                                        from: 'charangan.18@cse.mrt.ac.lk',
+                                        to: global.user[0].email,
+                                        subject: 'New Event From DS',
+                                        html: '<p class="text-center">There will be an event on ' + req.body.date + ' at ' + req.body.time + ' in ' + req.body.place +'. Requirements are ' + req.body.requirement + '.</p>'
+                                    };
+                                                                    
+                                    transporter.sendMail(mailOptions, function(error, info){
+                                        if (error) {
+                                            res.send(error);
+                                        }
+                                    });
+                                }                            
+                            });
+                        }
+                    });                       
+                }  
+            });                                    
+        };               
+        notifyListners();
+        res.send("OK");
+    }
+    else{
+        res.send("You cannot add events to past days!");
+    }
 });
 
 // =================== End Observer Pattern ===============
